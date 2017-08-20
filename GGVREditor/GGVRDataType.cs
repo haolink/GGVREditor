@@ -5,6 +5,7 @@ using System.Text;
 
 using System.IO;
 using System.Globalization;
+using System.Drawing;
 
 namespace GGVREditor
 {
@@ -69,6 +70,10 @@ namespace GGVREditor
             {
                 _value = (T)(object)(br.ReadByte());
             }
+            if (typeof(T) == typeof(ColorComparable))
+            {                
+                _value = (T)(object)(ColorComparable.FromStream(br));
+            }
         }
 
         public GGVRDataType(bool enabled = false)
@@ -87,6 +92,10 @@ namespace GGVREditor
             if (typeof(T) == typeof(float))
             {
                 _value = (T)(object)(0.0f);
+            }
+            if(typeof(T) == typeof(ColorComparable))
+            {
+                _value = (T)(object)new ColorComparable();
             }
         }
 
@@ -113,6 +122,11 @@ namespace GGVREditor
                 byte w = (byte)(object)this._value;
                 bw.Write(w);
             }
+            if (typeof(T) == typeof(ColorComparable))
+            {
+                ColorComparable cc = (ColorComparable)(object)this._value;
+                cc.ToStream(bw);
+            }
         }
 
         public override string ToString() {
@@ -124,7 +138,7 @@ namespace GGVREditor
             if (typeof(T) == typeof(float))
             {
                 float v = (float)(object)this._value;
-                return v.ToString("G5", CultureInfo.InvariantCulture);
+                return String.Format(CultureInfo.InvariantCulture, "{0:###############0.##}", v);
             }
             if (typeof(T) == typeof(int))
             {
@@ -135,6 +149,11 @@ namespace GGVREditor
             {
                 byte b = (byte)(object)this._value;
                 return b.ToString("X").ToUpperInvariant();
+            }
+            if (typeof(T) == typeof(ColorComparable))
+            {
+                ColorComparable cc = (ColorComparable)(object)this._value;
+                return cc.ToString();
             }
 
             return _value.ToString();

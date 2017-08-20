@@ -5,6 +5,8 @@ using System.Text;
 
 using System.Windows.Forms;
 
+using System.IO;
+
 namespace GGVREditor
 {
     class Program
@@ -15,11 +17,7 @@ namespace GGVREditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            EditSettings settings = new EditSettings();
-            settings.UsePAKFile = false;
-            settings.GameDirectory = @"F:\Steam\SteamApps\common\GalGun VR";
-
-            Application.Run(new MainForm(settings));
+            Application.Run(new MainForm());            
         }
     }
 }

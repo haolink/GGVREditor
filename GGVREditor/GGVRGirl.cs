@@ -24,6 +24,9 @@ namespace GGVREditor
         public GGVRDataType<byte> Socks { get; set; }
         public GGVRDataType<byte> Shoes { get; set; }
 
+        public GGVRDataType<byte> Hair { get; set; }
+        public GGVRDataType<byte> Face { get; set; }
+        public GGVRDataType<byte> Skin { get; set; }
         public GGVRDataType<ColorComparable> EyeColor { get; set; }
         public GGVRDataType<ColorComparable> EyeBrowColor { get; set; }
 
@@ -41,6 +44,12 @@ namespace GGVREditor
             fieldList.Add(this.Accessory);
             fieldList.Add(this.Socks);
             fieldList.Add(this.Shoes);
+
+            fieldList.Add(this.Hair);
+            fieldList.Add(this.Face);
+            fieldList.Add(this.Skin);
+            fieldList.Add(this.EyeColor);
+            fieldList.Add(this.EyeBrowColor);            
 
             return fieldList.ToArray();
         }

@@ -35,12 +35,26 @@ namespace GGVREditor
 
         public static readonly Dictionary<byte, string> outfitValues = new Dictionary<byte, string>()
         {
-            { 0x81, "Risu" }, { 0x82, "Chiru" }, { 0x83, "Yuko" }, { 0x84, "Shinobu" }, { 0x85, "Maya" }, { 0x86, "1st grade" }, { 0x87, "2nd grade" }, { 0x88, "3rd grade" }, { 0x89, "Teacher" }, { 0x8A, "Kurona" }
+            { 0x81, "Risu (0x81)" }, { 0x82, "Chiru (0x82)" }, { 0x83, "Yuko (0x83)" }, { 0x84, "Shinobu (0x84)" }, { 0x85, "Maya (0x85)" }, { 0x86, "1st grade (0x86)" },
+            { 0x87, "2nd grade (0x87)" }, { 0x88, "3rd grade (0x88)" }, { 0x89, "Teacher (0x89)" }, { 0x8A, "Kurona (0x8A)" }
         };
         public static readonly Dictionary<byte, string> accessoryValues = new Dictionary<byte, string>()
         {
-            { 0x6E, "Ribbon" }, { 0x6F, "Tie" }
+            { 0x6E, "Ribbon (0x6E)" }, { 0x6F, "Tie (0x6F)" }
         };
+        public static readonly Dictionary<byte, string> shoes = new Dictionary<byte, string>()
+        {
+            { 0x93, "Sneakers (0x93)" }, { 0x94, "Formal (0x94)" }
+        };
+        public static readonly Dictionary<byte, string> socks = new Dictionary<byte, string>()
+        {
+            { 0x00, "Short White (0x00)" }, { 0x01, "Short Dark (0x01)" }, { 0x02, "Average White (0x00)" }, { 0x03, "Average Dark (0x03)" }, { 0x04, "Sports socks (0x04)" },
+            { 0x05, "Kneehigh White with Black top (0x05)" }, { 0x06, "Kneehigh Black (0x06)" }, { 0x07, "Kneehigh White (0x07)" }, { 0x08, "Kneehigh Pink/White (0x08)" },
+            { 0x09, "Kneehigh Purple/White (0x09)" }, { 0x0A, "Kneehigh Black/White (0x0A)" }, { 0x0B, "Leglong White (0x0B)" }, { 0x0C, "Leglong Dark (0x0C)" }
+        };
+
+        private BaseEditFields _girlHeightFields;
+        private BaseEditFields _playerParameters;
 
         private GGVRGirl[] _girls;
 
@@ -48,8 +62,68 @@ namespace GGVREditor
         {
             InitializeComponent();
 
+            this._edited = false;
+            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+
+            this._girlHeightFields = new BaseEditFields();
+            this._girlHeightFields.MarkEdited = this.MarkAsEdited;
+
+            this._playerParameters = new BaseEditFields();
+            this._playerParameters.MarkEdited = this.MarkAsEdited;
+
             PopulateComboboxColumn<byte, string>(clmOOutfit, outfitValues);
             PopulateComboboxColumn<byte, string>(clmOAccessory, accessoryValues);
+            PopulateComboboxColumn<byte, string>(clmOSocks, socks);
+            PopulateComboboxColumn<byte, string>(clmOShoes, shoes);
+        }
+
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            EditSettings settings = new EditSettings();
+            settings.UsePAKFile = false;
+
+            this._settings = settings;
+
+            string dir = settings.GameDirectory;
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.RootFolder = Environment.SpecialFolder.Desktop;
+            fbd.SelectedPath = dir;
+            fbd.Description = "Please select the Gal*Gun VR install folder!";
+
+            bool found = true;
+            while (!Directory.Exists(dir) || !File.Exists(dir + @"\GalGunVR.exe") || !File.Exists(dir + @"\GalGunVR\GalGunVR.uproject"))
+            {
+                found = false;
+
+                if (fbd.ShowDialog() != DialogResult.OK)
+                {
+                    break;
+                }
+
+                found = true;
+                dir = fbd.SelectedPath;
+            }
+
+            if (found)
+            {
+                settings.GameDirectory = dir;
+                settings.SaveSettings();
+            }
+            else
+            {
+                Close();
+                return;
+            }
+
+            this.LoadValues();
+
+            this.FillGrid();
+        }
+
+        private void MarkAsEdited(object sender, EventArgs e)
+        {
+            EnableEdited(true);
         }
 
         private void PopulateComboboxColumn<T, U>(DataGridViewComboBoxColumn dgvcbc, Dictionary<T, U> dictionary)
@@ -72,13 +146,6 @@ namespace GGVREditor
             this._settings = settings;            
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            this.LoadValues();
-
-            this.FillGrid();
-        }
-
         private void LoadValues()
         {
             //TODO: Handle PAK file
@@ -90,6 +157,7 @@ namespace GGVREditor
             fs.Read(buffer, 0, (int)fs.Length);
             
             byte initial = 0x3B;
+            List<long> locations;
 
             byte[] needle;
             int[] offsets = new int[characterNames.Length];
@@ -102,7 +170,7 @@ namespace GGVREditor
                     searchByte, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
                 };
 
-                List<long> locations = buffer.IndexesOf(needle);
+                locations = buffer.IndexesOf(needle);
 
                 if (locations.Count >= 0)
                 {
@@ -135,15 +203,62 @@ namespace GGVREditor
                     g.Outfit = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x1DC, gPrep, "Outfit");
                     g.Accessory = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x2D2, gPrep, "Accessory");
                     g.Socks = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x31C, gPrep, "Socks");
-                    g.Shoes = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x35E, gPrep, "Shoes");                    
+                    g.Shoes = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x35E, gPrep, "Shoes");
+
+                    g.Hair = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x21, gPrep, "Hair");
+                    g.Face = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x46, gPrep, "Face");
+                    g.Skin = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0xF1, gPrep, "Skin");
+                    g.EyeColor = this.LoadValueAndOriginal<ColorComparable>(br, offsets[i] + 0x7F, gPrep, "EyeColor");
+                    g.EyeBrowColor = this.LoadValueAndOriginal<ColorComparable>(br, offsets[i] + 0xC0, gPrep, "EyeBrowColor");
 
                     girls.Add(g);
                 }
             }
 
+            br = null;
             fs.Close();
 
             this._girls = girls.ToArray();
+
+            fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            br = new BinaryReader(fs);
+            buffer = new byte[(int)fs.Length];
+            fs.Seek(0, SeekOrigin.Begin);
+            fs.Read(buffer, 0, (int)fs.Length);
+
+            needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            locations = buffer.IndexesOf(needle);
+
+            if(locations.Count == 2)
+            {
+                this._girlHeightFields.AddRelation(txtMinCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x2C, "GirlHeights", "MinCM"));
+                this._girlHeightFields.AddRelation(txtMinScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x30, "GirlHeights", "MinScale"));
+                this._girlHeightFields.AddRelation(txtNormCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x47, "GirlHeights", "NormCM"));
+                this._girlHeightFields.AddRelation(txtNormScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x4B, "GirlHeights", "NormScale"));
+                this._girlHeightFields.AddRelation(txtMaxCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x62, "GirlHeights", "MaxCM"));
+                this._girlHeightFields.AddRelation(txtMaxScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x66, "GirlHeights", "MaxScale"));
+            }
+
+            br = null;
+            fs.Close();
+
+            fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            br = new BinaryReader(fs);
+            buffer = new byte[(int)fs.Length];
+            fs.Seek(0, SeekOrigin.Begin);
+            fs.Read(buffer, 0, (int)fs.Length);
+
+            needle = new byte[] { 0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            locations = buffer.IndexesOf(needle);
+
+            if (locations.Count == 1)
+            {
+                this._playerParameters.AddRelation(txtInitialHealth, this.LoadValueAndOriginal<float>(br, locations[0] + 0x1C, "PlayerParams", "Health"));
+                this._playerParameters.AddRelation(txtDepletionRate, this.LoadValueAndOriginal<float>(br, locations[0] + 0x73, "PlayerParams", "Depletion"));                
+            }
+
+            br = null;
+            fs.Close();            
         }
 
         private GGVRDataType<T> LoadValueAndOriginal<T>(BinaryReader br, long address, string prepend, string name) where T : IComparable
@@ -170,6 +285,9 @@ namespace GGVREditor
 
                 values = new GGVRBaseDataType[] { girl.Outfit, girl.Accessory, girl.Socks, girl.Shoes };
                 FillToDataGrid(dgvOutfit, girl.ID, name, girl.Height, values);
+
+                values = new GGVRBaseDataType[] { girl.Hair, girl.Face, girl.Skin, girl.EyeColor, girl.EyeBrowColor };
+                FillToDataGrid(dgvAppearance, girl.ID, name, girl.Height, values);
             }
         }
 
@@ -218,7 +336,7 @@ namespace GGVREditor
             if (!found)
             {
                 int rowNumber = dgv.Rows.Add();
-                DataGridViewRow row = dgv.Rows[rowNumber];
+                DataGridViewRow row = dgv.Rows[rowNumber];                
 
                 FillRow(row, objectValues.ToArray());
 
@@ -302,6 +420,7 @@ namespace GGVREditor
 
         private void btnSave_Click(object sender, EventArgs e)
         {
+            this.Focus();
             SaveFile();
 
             MessageBox.Show("File saved.");
@@ -321,6 +440,20 @@ namespace GGVREditor
             bwGVD = null;
             fsGVD.Close();
             fsGVD = null;
+
+            FileStream fsGH = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            BinaryWriter bwGH = new BinaryWriter(fsGH);
+            this._girlHeightFields.WriteAll(bwGH);
+            bwGH = null;
+            fsGH.Close();
+            fsGH = null;
+
+            FileStream fsPP = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            BinaryWriter bwPP = new BinaryWriter(fsPP);
+            this._playerParameters.WriteAll(bwPP);
+            bwPP = null;
+            fsPP.Close();
+            fsPP = null;
 
             EnableEdited(false);
         }
@@ -357,7 +490,41 @@ namespace GGVREditor
             dgv.CurrentCell = dgv.CurrentCell;
             dgv.BeginEdit(true);
         }
-        
+
+        private void dgvAppearance_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            if (dgv.CurrentCell == null)
+            {
+                return;
+            }
+
+            object tag = dgv.CurrentCell.Tag;
+            if (!(tag is GGVRBaseDataType))
+            {
+                dgv.EndEdit();
+                return;
+            }
+            GGVRBaseDataType cct = (GGVRBaseDataType)tag;
+            if (!cct.Enabled)
+            {
+                dgv.EndEdit();
+                return;
+            }
+
+            if (dgv.Columns[e.ColumnIndex] is DataGridViewButtonColumn && e.RowIndex >= 0 && cct.ValueType == typeof(ColorComparable))
+            {
+                ColorComparable cc = (ColorComparable)cct.GetValue();
+                dlgColor.Color = cc.Color;
+                if(dlgColor.ShowDialog() != DialogResult.Cancel)
+                {
+                    cc.Color = dlgColor.Color;
+                    EnableEdited(true);
+                    dgv.CurrentCell.Value = cct.ToString();
+                }
+            }
+        }
 
         private void dgvData_CellLeave(object sender, DataGridViewCellEventArgs e)
         {
@@ -373,7 +540,12 @@ namespace GGVREditor
 
             GGVRBaseDataType dt = (GGVRBaseDataType)tag;
 
-            string inputValue = cell.Value.ToString();
+            string inputValue = "";
+            if (cell.Value != null)
+            {
+                inputValue = cell.Value.ToString();
+            }
+            
             if (dgv.EditingControl != null)
             {
                 if(dgv.EditingControl is ComboBox)
@@ -594,6 +766,122 @@ namespace GGVREditor
             clmAddress.Visible = tsMainShowAddresses.Checked;
             clmOAddress.Visible = tsMainShowAddresses.Checked;
             clmAAddress.Visible = tsMainShowAddresses.Checked;
+        }
+
+        private void dgvAppearance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            DataGridView dgv = (DataGridView)sender;
+
+            DataGridViewCell cell = dgv.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            object tag = cell.Tag;
+            if (!(tag is GGVRBaseDataType))
+            {
+                return;
+            }
+            GGVRBaseDataType cct = (GGVRBaseDataType)tag;
+
+            if ((cell is DataGridViewButtonCell) && e.RowIndex >= 0 && cct.ValueType == typeof(ColorComparable))
+            {
+                ColorComparable cc = (ColorComparable)cct.GetValue();
+                Color c = cc.Color;
+
+                e.CellStyle.BackColor = cc.Color;
+
+                if(c.R + c.B + c.G < 375)
+                {
+                    e.CellStyle.ForeColor = Color.White;
+                }
+                else
+                {
+                    e.CellStyle.ForeColor = Color.Black;
+                }                
+            }
+        }
+
+        private void btnMaxScales_Click(object sender, EventArgs e)
+        {
+            this._girlHeightFields.SetTextBoxValue(this.txtMinCM, (0.0f).ToString());
+            this._girlHeightFields.SetTextBoxValue(this.txtMinScale, (0.0f).ToString());
+            this._girlHeightFields.SetTextBoxValue(this.txtNormCM, (156.0f).ToString());
+            this._girlHeightFields.SetTextBoxValue(this.txtNormScale, (1.0f).ToString());
+            this._girlHeightFields.SetTextBoxValue(this.txtMaxCM, (1560.0f).ToString());
+            this._girlHeightFields.SetTextBoxValue(this.txtMaxScale, (10.0f).ToString());
+        }
+
+        private void btnGodMode_Click(object sender, EventArgs e)
+        {
+            this._playerParameters.SetTextBoxValue(this.txtInitialHealth, "1000000000");
+            this._playerParameters.SetTextBoxValue(this.txtDepletionRate, (0.0f).ToString());
+        }
+
+        private void tsiTBRestoreOriginal_Click(object sender, EventArgs e)
+        {
+            if(txtBoxContextMenu.SourceControl is TextBox)
+            {
+                TextBox tb = (TextBox)txtBoxContextMenu.SourceControl;
+                object tag = tb.Tag;
+
+                if(!(tag is GGVRBaseDataType))
+                {
+                    return;
+                }
+                GGVRBaseDataType ddt = (GGVRBaseDataType)tag;
+
+                ddt.RestoreOriginal();
+                tb.Text = ddt.ToString();                
+            }
+        }
+
+        private void tsiTBCopy_Click(object sender, EventArgs e)
+        {
+            if (txtBoxContextMenu.SourceControl is TextBox)
+            {
+                TextBox tb = (TextBox)txtBoxContextMenu.SourceControl;
+                object tag = tb.Tag;
+
+                if (!(tag is GGVRBaseDataType))
+                {
+                    return;
+                }
+                Clipboard.SetText(tb.Text);
+            }
+        }
+
+        private void tsiTBPaste_Click(object sender, EventArgs e)
+        {
+            if (txtBoxContextMenu.SourceControl is TextBox)
+            {
+                TextBox tb = (TextBox)txtBoxContextMenu.SourceControl;
+                object tag = tb.Tag;
+
+                if (!(tag is GGVRBaseDataType))
+                {
+                    return;
+                }
+                tb.Text = Clipboard.GetText();
+                tb.Focus();
+            }
+        }
+
+        private void tsiTBShowAddress_Click(object sender, EventArgs e)
+        {
+            if (txtBoxContextMenu.SourceControl is TextBox)
+            {
+                TextBox tb = (TextBox)txtBoxContextMenu.SourceControl;
+                object tag = tb.Tag;
+
+                if (!(tag is GGVRBaseDataType))
+                {
+                    return;
+                }
+                GGVRBaseDataType ddt = (GGVRBaseDataType)tag;
+
+                string address = ddt.Address.ToString("X");
+                Clipboard.SetText(address);
+                MessageBox.Show("Address: " + address + "\r\n\r\n" + "Copied to clipboard.");
+            }
+            
         }
     }
 }

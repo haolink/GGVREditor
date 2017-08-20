@@ -45,13 +45,6 @@
             this.tsMainShowAddresses = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvOutfit = new System.Windows.Forms.DataGridView();
-            this.cellContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsRestoreOriginal = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsCopy = new System.Windows.Forms.ToolStripMenuItem();
-            this.tsPaste = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsShowFieldAddress = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnSave = new System.Windows.Forms.Button();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dgvAppearance = new System.Windows.Forms.DataGridView();
             this.clmAGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,22 +55,58 @@
             this.clmASkin = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnGodMode = new System.Windows.Forms.Button();
+            this.txtDepletionRate = new System.Windows.Forms.TextBox();
+            this.txtBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsiTBRestoreOriginal = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsiTBCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsiTBPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsiTBShowAddress = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtInitialHealth = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnMaxScales = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtMaxScale = new System.Windows.Forms.TextBox();
+            this.txtMaxCM = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtNormScale = new System.Windows.Forms.TextBox();
+            this.txtNormCM = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtMinScale = new System.Windows.Forms.TextBox();
+            this.txtMinCM = new System.Windows.Forms.TextBox();
+            this.cellContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsRestoreOriginal = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsPaste = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsShowFieldAddress = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.dlgColor = new System.Windows.Forms.ColorDialog();
             this.clmOGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmOGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmOAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmOOutfit = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.clmOAccessory = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmOSocks = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmOShoes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmOSocks = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmOShoes = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).BeginInit();
             this.mainGridContextMenu.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutfit)).BeginInit();
-            this.cellContextMenu.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.txtBoxContextMenu.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.cellContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -88,6 +117,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -100,7 +130,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(959, 590);
+            this.tabPage1.Size = new System.Drawing.Size(807, 591);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Size";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -130,7 +160,7 @@
             this.dgvDataFixed.Name = "dgvDataFixed";
             this.dgvDataFixed.RowHeadersVisible = false;
             this.dgvDataFixed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvDataFixed.Size = new System.Drawing.Size(947, 578);
+            this.dgvDataFixed.Size = new System.Drawing.Size(795, 578);
             this.dgvDataFixed.TabIndex = 5;
             this.dgvDataFixed.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvDataFixed.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
@@ -257,6 +287,325 @@
             this.dgvOutfit.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvData_EditingControlShowing);
             this.dgvOutfit.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvData_SortCompare);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.dgvAppearance);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(807, 591);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Appearance";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // dgvAppearance
+            // 
+            this.dgvAppearance.AllowUserToAddRows = false;
+            this.dgvAppearance.AllowUserToDeleteRows = false;
+            this.dgvAppearance.AllowUserToResizeRows = false;
+            this.dgvAppearance.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvAppearance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAppearance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmAGirlID,
+            this.clmAGirlName,
+            this.clmAAddress,
+            this.clmAHair,
+            this.clmAFace,
+            this.clmASkin,
+            this.clmAEyeColor,
+            this.clmAEyeBColor});
+            this.dgvAppearance.ContextMenuStrip = this.mainGridContextMenu;
+            this.dgvAppearance.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvAppearance.Location = new System.Drawing.Point(6, 6);
+            this.dgvAppearance.MultiSelect = false;
+            this.dgvAppearance.Name = "dgvAppearance";
+            this.dgvAppearance.RowHeadersVisible = false;
+            this.dgvAppearance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvAppearance.Size = new System.Drawing.Size(795, 579);
+            this.dgvAppearance.TabIndex = 7;
+            this.dgvAppearance.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
+            this.dgvAppearance.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppearance_CellContentClick);
+            this.dgvAppearance.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
+            this.dgvAppearance.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
+            this.dgvAppearance.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvAppearance_CellFormatting);
+            this.dgvAppearance.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
+            this.dgvAppearance.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvData_EditingControlShowing);
+            this.dgvAppearance.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvData_SortCompare);
+            // 
+            // clmAGirlID
+            // 
+            this.clmAGirlID.HeaderText = "ID";
+            this.clmAGirlID.Name = "clmAGirlID";
+            this.clmAGirlID.ReadOnly = true;
+            this.clmAGirlID.Width = 30;
+            // 
+            // clmAGirlName
+            // 
+            this.clmAGirlName.HeaderText = "Girl name";
+            this.clmAGirlName.Name = "clmAGirlName";
+            this.clmAGirlName.ReadOnly = true;
+            this.clmAGirlName.Width = 150;
+            // 
+            // clmAAddress
+            // 
+            this.clmAAddress.HeaderText = "Address";
+            this.clmAAddress.Name = "clmAAddress";
+            this.clmAAddress.ReadOnly = true;
+            this.clmAAddress.Visible = false;
+            this.clmAAddress.Width = 85;
+            // 
+            // clmAHair
+            // 
+            this.clmAHair.HeaderText = "Hair";
+            this.clmAHair.Name = "clmAHair";
+            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // clmAFace
+            // 
+            this.clmAFace.HeaderText = "Face";
+            this.clmAFace.Name = "clmAFace";
+            // 
+            // clmASkin
+            // 
+            this.clmASkin.HeaderText = "Skin";
+            this.clmASkin.Name = "clmASkin";
+            // 
+            // clmAEyeColor
+            // 
+            this.clmAEyeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeColor.HeaderText = "Eye colour";
+            this.clmAEyeColor.Name = "clmAEyeColor";
+            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // clmAEyeBColor
+            // 
+            this.clmAEyeBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
+            this.clmAEyeBColor.Name = "clmAEyeBColor";
+            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox2);
+            this.tabPage4.Controls.Add(this.groupBox1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(807, 591);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Additional settings";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.btnGodMode);
+            this.groupBox2.Controls.Add(this.txtDepletionRate);
+            this.groupBox2.Controls.Add(this.txtInitialHealth);
+            this.groupBox2.Location = new System.Drawing.Point(8, 142);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(379, 104);
+            this.groupBox2.TabIndex = 10;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Player parameters";
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(6, 45);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(227, 20);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "Demon sweeper depletion rate:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(6, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(227, 20);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Initial health:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnGodMode
+            // 
+            this.btnGodMode.Location = new System.Drawing.Point(6, 71);
+            this.btnGodMode.Name = "btnGodMode";
+            this.btnGodMode.Size = new System.Drawing.Size(362, 23);
+            this.btnGodMode.TabIndex = 9;
+            this.btnGodMode.Text = "God mode";
+            this.btnGodMode.UseVisualStyleBackColor = true;
+            this.btnGodMode.Click += new System.EventHandler(this.btnGodMode_Click);
+            // 
+            // txtDepletionRate
+            // 
+            this.txtDepletionRate.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtDepletionRate.Location = new System.Drawing.Point(239, 45);
+            this.txtDepletionRate.Name = "txtDepletionRate";
+            this.txtDepletionRate.Size = new System.Drawing.Size(129, 20);
+            this.txtDepletionRate.TabIndex = 4;
+            // 
+            // txtBoxContextMenu
+            // 
+            this.txtBoxContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsiTBRestoreOriginal,
+            this.tsiTBCopy,
+            this.tsiTBPaste,
+            this.toolStripSeparator2,
+            this.tsiTBShowAddress});
+            this.txtBoxContextMenu.Name = "cellContextMenu";
+            this.txtBoxContextMenu.Size = new System.Drawing.Size(173, 98);
+            // 
+            // tsiTBRestoreOriginal
+            // 
+            this.tsiTBRestoreOriginal.Name = "tsiTBRestoreOriginal";
+            this.tsiTBRestoreOriginal.Size = new System.Drawing.Size(172, 22);
+            this.tsiTBRestoreOriginal.Text = "Restore original";
+            this.tsiTBRestoreOriginal.Click += new System.EventHandler(this.tsiTBRestoreOriginal_Click);
+            // 
+            // tsiTBCopy
+            // 
+            this.tsiTBCopy.Name = "tsiTBCopy";
+            this.tsiTBCopy.ShortcutKeyDisplayString = "Ctrl+C";
+            this.tsiTBCopy.Size = new System.Drawing.Size(172, 22);
+            this.tsiTBCopy.Text = "Copy";
+            this.tsiTBCopy.Click += new System.EventHandler(this.tsiTBCopy_Click);
+            // 
+            // tsiTBPaste
+            // 
+            this.tsiTBPaste.Name = "tsiTBPaste";
+            this.tsiTBPaste.ShortcutKeyDisplayString = "Ctrl+V";
+            this.tsiTBPaste.Size = new System.Drawing.Size(172, 22);
+            this.tsiTBPaste.Text = "Paste";
+            this.tsiTBPaste.Click += new System.EventHandler(this.tsiTBPaste_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(169, 6);
+            // 
+            // tsiTBShowAddress
+            // 
+            this.tsiTBShowAddress.Name = "tsiTBShowAddress";
+            this.tsiTBShowAddress.Size = new System.Drawing.Size(172, 22);
+            this.tsiTBShowAddress.Text = "Show field address";
+            this.tsiTBShowAddress.Click += new System.EventHandler(this.tsiTBShowAddress_Click);
+            // 
+            // txtInitialHealth
+            // 
+            this.txtInitialHealth.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtInitialHealth.Location = new System.Drawing.Point(239, 19);
+            this.txtInitialHealth.Name = "txtInitialHealth";
+            this.txtInitialHealth.Size = new System.Drawing.Size(129, 20);
+            this.txtInitialHealth.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnMaxScales);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.txtMaxScale);
+            this.groupBox1.Controls.Add(this.txtMaxCM);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txtNormScale);
+            this.groupBox1.Controls.Add(this.txtNormCM);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txtMinScale);
+            this.groupBox1.Controls.Add(this.txtMinCM);
+            this.groupBox1.Location = new System.Drawing.Point(8, 8);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(379, 128);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Height to scale relations";
+            // 
+            // btnMaxScales
+            // 
+            this.btnMaxScales.Location = new System.Drawing.Point(6, 98);
+            this.btnMaxScales.Name = "btnMaxScales";
+            this.btnMaxScales.Size = new System.Drawing.Size(362, 23);
+            this.btnMaxScales.TabIndex = 9;
+            this.btnMaxScales.Text = "Maximise Scales";
+            this.btnMaxScales.UseVisualStyleBackColor = true;
+            this.btnMaxScales.Click += new System.EventHandler(this.btnMaxScales_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(141, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "cm -> model scale";
+            // 
+            // txtMaxScale
+            // 
+            this.txtMaxScale.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtMaxScale.Location = new System.Drawing.Point(239, 71);
+            this.txtMaxScale.Name = "txtMaxScale";
+            this.txtMaxScale.Size = new System.Drawing.Size(129, 20);
+            this.txtMaxScale.TabIndex = 7;
+            // 
+            // txtMaxCM
+            // 
+            this.txtMaxCM.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtMaxCM.Location = new System.Drawing.Point(6, 71);
+            this.txtMaxCM.Name = "txtMaxCM";
+            this.txtMaxCM.Size = new System.Drawing.Size(129, 20);
+            this.txtMaxCM.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(141, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(92, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "cm -> model scale";
+            // 
+            // txtNormScale
+            // 
+            this.txtNormScale.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtNormScale.Location = new System.Drawing.Point(239, 45);
+            this.txtNormScale.Name = "txtNormScale";
+            this.txtNormScale.Size = new System.Drawing.Size(129, 20);
+            this.txtNormScale.TabIndex = 4;
+            // 
+            // txtNormCM
+            // 
+            this.txtNormCM.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtNormCM.Location = new System.Drawing.Point(6, 45);
+            this.txtNormCM.Name = "txtNormCM";
+            this.txtNormCM.Size = new System.Drawing.Size(129, 20);
+            this.txtNormCM.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(141, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "cm -> model scale";
+            // 
+            // txtMinScale
+            // 
+            this.txtMinScale.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtMinScale.Location = new System.Drawing.Point(239, 19);
+            this.txtMinScale.Name = "txtMinScale";
+            this.txtMinScale.Size = new System.Drawing.Size(129, 20);
+            this.txtMinScale.TabIndex = 1;
+            // 
+            // txtMinCM
+            // 
+            this.txtMinCM.ContextMenuStrip = this.txtBoxContextMenu;
+            this.txtMinCM.Location = new System.Drawing.Point(6, 19);
+            this.txtMinCM.Name = "txtMinCM";
+            this.txtMinCM.Size = new System.Drawing.Size(129, 20);
+            this.txtMinCM.TabIndex = 0;
+            // 
             // cellContextMenu
             // 
             this.cellContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -316,96 +665,10 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // tabPage3
+            // dlgColor
             // 
-            this.tabPage3.Controls.Add(this.dgvAppearance);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(959, 590);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Appearance";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // dgvAppearance
-            // 
-            this.dgvAppearance.AllowUserToAddRows = false;
-            this.dgvAppearance.AllowUserToDeleteRows = false;
-            this.dgvAppearance.AllowUserToResizeRows = false;
-            this.dgvAppearance.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgvAppearance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvAppearance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.clmAGirlID,
-            this.clmAGirlName,
-            this.clmAAddress,
-            this.clmAHair,
-            this.clmAFace,
-            this.clmASkin,
-            this.clmAEyeColor,
-            this.clmAEyeBColor});
-            this.dgvAppearance.ContextMenuStrip = this.mainGridContextMenu;
-            this.dgvAppearance.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvAppearance.Location = new System.Drawing.Point(6, 6);
-            this.dgvAppearance.MultiSelect = false;
-            this.dgvAppearance.Name = "dgvAppearance";
-            this.dgvAppearance.RowHeadersVisible = false;
-            this.dgvAppearance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvAppearance.Size = new System.Drawing.Size(947, 578);
-            this.dgvAppearance.TabIndex = 7;
-            // 
-            // clmAGirlID
-            // 
-            this.clmAGirlID.HeaderText = "ID";
-            this.clmAGirlID.Name = "clmAGirlID";
-            this.clmAGirlID.ReadOnly = true;
-            this.clmAGirlID.Width = 30;
-            // 
-            // clmAGirlName
-            // 
-            this.clmAGirlName.HeaderText = "Girl name";
-            this.clmAGirlName.Name = "clmAGirlName";
-            this.clmAGirlName.ReadOnly = true;
-            this.clmAGirlName.Width = 150;
-            // 
-            // clmAAddress
-            // 
-            this.clmAAddress.HeaderText = "Address";
-            this.clmAAddress.Name = "clmAAddress";
-            this.clmAAddress.ReadOnly = true;
-            this.clmAAddress.Visible = false;
-            this.clmAAddress.Width = 85;
-            // 
-            // clmAHair
-            // 
-            this.clmAHair.HeaderText = "Hair";
-            this.clmAHair.Name = "clmAHair";
-            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAHair.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // clmAFace
-            // 
-            this.clmAFace.HeaderText = "Face";
-            this.clmAFace.Name = "clmAFace";
-            // 
-            // clmASkin
-            // 
-            this.clmASkin.HeaderText = "Skin";
-            this.clmASkin.Name = "clmASkin";
-            // 
-            // clmAEyeColor
-            // 
-            this.clmAEyeColor.HeaderText = "Eye colour";
-            this.clmAEyeColor.Name = "clmAEyeColor";
-            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // clmAEyeBColor
-            // 
-            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
-            this.clmAEyeBColor.Name = "clmAEyeBColor";
-            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.dlgColor.AnyColor = true;
+            this.dlgColor.FullOpen = true;
             // 
             // clmOGirlID
             // 
@@ -431,31 +694,39 @@
             // 
             // clmOOutfit
             // 
+            this.clmOOutfit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clmOOutfit.HeaderText = "Outfit";
             this.clmOOutfit.Name = "clmOOutfit";
             this.clmOOutfit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.clmOOutfit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOOutfit.Width = 80;
+            this.clmOOutfit.Width = 110;
             // 
             // clmOAccessory
             // 
+            this.clmOAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clmOAccessory.HeaderText = "Accessory";
             this.clmOAccessory.Name = "clmOAccessory";
             this.clmOAccessory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.clmOAccessory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOAccessory.Width = 80;
+            this.clmOAccessory.Width = 110;
             // 
             // clmOSocks
             // 
+            this.clmOSocks.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clmOSocks.HeaderText = "Socks";
             this.clmOSocks.Name = "clmOSocks";
-            this.clmOSocks.Width = 40;
+            this.clmOSocks.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOSocks.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOSocks.Width = 220;
             // 
             // clmOShoes
             // 
+            this.clmOShoes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.clmOShoes.HeaderText = "Shoes";
             this.clmOShoes.Name = "clmOShoes";
-            this.clmOShoes.Width = 40;
+            this.clmOShoes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOShoes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOShoes.Width = 110;
             // 
             // MainForm
             // 
@@ -465,17 +736,23 @@
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
-            this.Text = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Text = "Gal*Gun VR Editor";
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).EndInit();
             this.mainGridContextMenu.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOutfit)).EndInit();
-            this.cellContextMenu.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.txtBoxContextMenu.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.cellContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -507,6 +784,7 @@
         private System.Windows.Forms.DataGridView dgvOutfit;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView dgvAppearance;
+        private System.Windows.Forms.ColorDialog dlgColor;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlID;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlName;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmAAddress;
@@ -515,12 +793,36 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmASkin;
         private System.Windows.Forms.DataGridViewButtonColumn clmAEyeColor;
         private System.Windows.Forms.DataGridViewButtonColumn clmAEyeBColor;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtMaxScale;
+        private System.Windows.Forms.TextBox txtMaxCM;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtNormScale;
+        private System.Windows.Forms.TextBox txtNormCM;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtMinScale;
+        private System.Windows.Forms.TextBox txtMinCM;
+        private System.Windows.Forms.Button btnMaxScales;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button btnGodMode;
+        private System.Windows.Forms.TextBox txtDepletionRate;
+        private System.Windows.Forms.TextBox txtInitialHealth;
+        private System.Windows.Forms.ContextMenuStrip txtBoxContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem tsiTBRestoreOriginal;
+        private System.Windows.Forms.ToolStripMenuItem tsiTBCopy;
+        private System.Windows.Forms.ToolStripMenuItem tsiTBPaste;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem tsiTBShowAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmOGirlID;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmOGirlName;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmOAddress;
         private System.Windows.Forms.DataGridViewComboBoxColumn clmOOutfit;
         private System.Windows.Forms.DataGridViewComboBoxColumn clmOAccessory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmOSocks;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmOShoes;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmOSocks;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmOShoes;
     }
 }
