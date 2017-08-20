@@ -52,6 +52,30 @@ namespace GGVREditor
             { 0x05, "Kneehigh White with Black top (0x05)" }, { 0x06, "Kneehigh Black (0x06)" }, { 0x07, "Kneehigh White (0x07)" }, { 0x08, "Kneehigh Pink/White (0x08)" },
             { 0x09, "Kneehigh Purple/White (0x09)" }, { 0x0A, "Kneehigh Black/White (0x0A)" }, { 0x0B, "Leglong White (0x0B)" }, { 0x0C, "Leglong Dark (0x0C)" }
         };
+        public static readonly Dictionary<byte, string> hairs = new Dictionary<byte, string>()
+        {
+            { 0x8E, "Bald (0x8E)" }, { 0x8F, "Short blue (0x8F)" }, { 0x90, "Short red curly (0x90)" }, { 0x91, "Pigtail brown (0x91)" }, { 0x92, "Short blue with ahoge (0x92)" },
+            { 0x93, "Medium blue with pigtail (0x93)" }, { 0x94, "Dark grey with pigtail (0x94)" }, { 0x95, "Dark grey with short twintails (0x95)" }, { 0x96, "Medium dark covering right eye (0x96)" },
+            { 0x97, "Long dark (0x97)" }, { 0x98, "Blue with twintails (0x98)" }, { 0x99, "Red with twintails (0x99)" }, { 0x9A, "Red with Moon accessory (0x9A)" },
+            { 0x9B, "Medium light brown with clips (0x9B)" }, { 0x9C, "Long blue with clips (0x9C)" }, { 0x9D, "Medium pink (0x9D)" }, { 0x9E, "Medium red covering eyes (0x9E)" },
+            { 0x9F, "Light Grey with twintails (0x9F)" }, { 0xA0, "Long brown with Tetris clips (0xA0)" }, { 0xA1, "Medium blue (0xA1)" }, { 0xA2, "Short yellow (0xA2)" }, { 0xA3, "Green with pigtail (0xA3)" },
+            { 0xA4, "Blue with bunny clips (0xA4)" }, { 0xA5, "Pink with short twintails (0xA5)" }, { 0xA6, "Dark brown with ahoge (0xA6)" }, { 0xA7, "Medium yellow with ribbon (0xA7)" },
+            { 0xA8, "Medium blonde (0xA8)" }, { 0xA9, "Medium yellow with pigtail (0xA9)" }, { 0xAA, "Green with right pigtail (0xAA)" }, { 0xAB, "Blue with curly twintails (0xAB)" },
+            { 0xAC, "Long purple (0xAC)" }, { 0xAD, "Blue with clef (0xAD)" }, { 0xAE, "Grey with ribbon twintais (0xAE)" }, { 0xAF, "Brown with alice band (0xAF)" },
+            { 0xB0, "Black with crosses (Yuko) (0xB0)" }, { 0xB1, "Purple with bells (Shinobu) (0xB1)" }, { 0xB2, "Long curly yellow (Risu) (0xB2)" }, { 0xB3, "Dark with crosses (Maya) (0xB3)" },
+            { 0xB4, "Red with devil horns (Kurona) (0xB4)" }, { 0xB5, "Silver with devil clips (Chiru) (0xB5)" }
+        };
+
+        public static readonly Dictionary<byte, string> faces = new Dictionary<byte, string>()
+        {
+            { 0x71, "Face 1 (0x71)" }, { 0x72, "Face 2 (0x72)" },  { 0x73, "Face 3 (0x73)" },  { 0x74, "Face 4 (0x74)" },  { 0x75, "Face 5 (0x75)" },  { 0x76, "Face 6 (0x76)" },  { 0x77, "Face 7 (0x77)" },  { 0x78, "Face 8 (0x78)" },
+            { 0x79, "Face 9 (0x79)" }, { 0x7A, "Face 10 (0x7A)" }, { 0x7B, "Face 11 (0x7B)" }, { 0x7C, "Face 12 (0x7C)" }, { 0x7D, "Face 13 (0x7D)" }, { 0x7E, "Face 14 (0x7E)" }, { 0x7F, "Face 15 (0x7F)" }
+        };
+
+        public static readonly Dictionary<byte, string> skins = new Dictionary<byte, string>()
+        {
+            { 0xE8, "Skin 1 (0xE8)" }, { 0xE9, "Skin 2 (0xE9)" },  { 0xEA, "Skin 3 (0xEA)" },  { 0xEB, "Black broken (0xEB)" }
+        };
 
         private BaseEditFields _girlHeightFields;
         private BaseEditFields _playerParameters;
@@ -75,6 +99,9 @@ namespace GGVREditor
             PopulateComboboxColumn<byte, string>(clmOAccessory, accessoryValues);
             PopulateComboboxColumn<byte, string>(clmOSocks, socks);
             PopulateComboboxColumn<byte, string>(clmOShoes, shoes);
+            PopulateComboboxColumn<byte, string>(clmAHair, hairs);
+            PopulateComboboxColumn<byte, string>(clmAFace, faces);
+            PopulateComboboxColumn<byte, string>(clmASkin, skins);
         }
 
 

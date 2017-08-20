@@ -47,14 +47,6 @@
             this.dgvOutfit = new System.Windows.Forms.DataGridView();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dgvAppearance = new System.Windows.Forms.DataGridView();
-            this.clmAGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAHair = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAFace = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmASkin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -94,6 +86,14 @@
             this.clmOAccessory = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.clmOSocks = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.clmOShoes = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmAGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAHair = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmAFace = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmASkin = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).BeginInit();
@@ -121,7 +121,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(815, 617);
+            this.tabControl1.Size = new System.Drawing.Size(942, 617);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -130,7 +130,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(807, 591);
+            this.tabPage1.Size = new System.Drawing.Size(934, 591);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Size";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -160,7 +160,7 @@
             this.dgvDataFixed.Name = "dgvDataFixed";
             this.dgvDataFixed.RowHeadersVisible = false;
             this.dgvDataFixed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvDataFixed.Size = new System.Drawing.Size(795, 578);
+            this.dgvDataFixed.Size = new System.Drawing.Size(922, 578);
             this.dgvDataFixed.TabIndex = 5;
             this.dgvDataFixed.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvDataFixed.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
@@ -292,7 +292,7 @@
             this.tabPage3.Controls.Add(this.dgvAppearance);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(807, 591);
+            this.tabPage3.Size = new System.Drawing.Size(934, 591);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Appearance";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -322,7 +322,7 @@
             this.dgvAppearance.Name = "dgvAppearance";
             this.dgvAppearance.RowHeadersVisible = false;
             this.dgvAppearance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvAppearance.Size = new System.Drawing.Size(795, 579);
+            this.dgvAppearance.Size = new System.Drawing.Size(922, 579);
             this.dgvAppearance.TabIndex = 7;
             this.dgvAppearance.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvAppearance.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppearance_CellContentClick);
@@ -332,60 +332,6 @@
             this.dgvAppearance.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
             this.dgvAppearance.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvData_EditingControlShowing);
             this.dgvAppearance.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvData_SortCompare);
-            // 
-            // clmAGirlID
-            // 
-            this.clmAGirlID.HeaderText = "ID";
-            this.clmAGirlID.Name = "clmAGirlID";
-            this.clmAGirlID.ReadOnly = true;
-            this.clmAGirlID.Width = 30;
-            // 
-            // clmAGirlName
-            // 
-            this.clmAGirlName.HeaderText = "Girl name";
-            this.clmAGirlName.Name = "clmAGirlName";
-            this.clmAGirlName.ReadOnly = true;
-            this.clmAGirlName.Width = 150;
-            // 
-            // clmAAddress
-            // 
-            this.clmAAddress.HeaderText = "Address";
-            this.clmAAddress.Name = "clmAAddress";
-            this.clmAAddress.ReadOnly = true;
-            this.clmAAddress.Visible = false;
-            this.clmAAddress.Width = 85;
-            // 
-            // clmAHair
-            // 
-            this.clmAHair.HeaderText = "Hair";
-            this.clmAHair.Name = "clmAHair";
-            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // clmAFace
-            // 
-            this.clmAFace.HeaderText = "Face";
-            this.clmAFace.Name = "clmAFace";
-            // 
-            // clmASkin
-            // 
-            this.clmASkin.HeaderText = "Skin";
-            this.clmASkin.Name = "clmASkin";
-            // 
-            // clmAEyeColor
-            // 
-            this.clmAEyeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAEyeColor.HeaderText = "Eye colour";
-            this.clmAEyeColor.Name = "clmAEyeColor";
-            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // clmAEyeBColor
-            // 
-            this.clmAEyeBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
-            this.clmAEyeBColor.Name = "clmAEyeBColor";
-            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tabPage4
             // 
@@ -659,7 +605,7 @@
             this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(16, 635);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(811, 33);
+            this.btnSave.Size = new System.Drawing.Size(938, 33);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -728,11 +674,76 @@
             this.clmOShoes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.clmOShoes.Width = 110;
             // 
+            // clmAGirlID
+            // 
+            this.clmAGirlID.HeaderText = "ID";
+            this.clmAGirlID.Name = "clmAGirlID";
+            this.clmAGirlID.ReadOnly = true;
+            this.clmAGirlID.Width = 30;
+            // 
+            // clmAGirlName
+            // 
+            this.clmAGirlName.HeaderText = "Girl name";
+            this.clmAGirlName.Name = "clmAGirlName";
+            this.clmAGirlName.ReadOnly = true;
+            this.clmAGirlName.Width = 150;
+            // 
+            // clmAAddress
+            // 
+            this.clmAAddress.HeaderText = "Address";
+            this.clmAAddress.Name = "clmAAddress";
+            this.clmAAddress.ReadOnly = true;
+            this.clmAAddress.Visible = false;
+            this.clmAAddress.Width = 85;
+            // 
+            // clmAHair
+            // 
+            this.clmAHair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAHair.HeaderText = "Hair";
+            this.clmAHair.Name = "clmAHair";
+            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAHair.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmAHair.Width = 200;
+            // 
+            // clmAFace
+            // 
+            this.clmAFace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAFace.HeaderText = "Face";
+            this.clmAFace.Name = "clmAFace";
+            this.clmAFace.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAFace.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmAFace.Width = 110;
+            // 
+            // clmASkin
+            // 
+            this.clmASkin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmASkin.HeaderText = "Skin";
+            this.clmASkin.Name = "clmASkin";
+            this.clmASkin.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmASkin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmASkin.Width = 110;
+            // 
+            // clmAEyeColor
+            // 
+            this.clmAEyeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeColor.HeaderText = "Eye colour";
+            this.clmAEyeColor.Name = "clmAEyeColor";
+            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // clmAEyeBColor
+            // 
+            this.clmAEyeBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
+            this.clmAEyeBColor.Name = "clmAEyeBColor";
+            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(839, 680);
+            this.ClientSize = new System.Drawing.Size(966, 680);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
@@ -785,14 +796,6 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataGridView dgvAppearance;
         private System.Windows.Forms.ColorDialog dlgColor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmAAddress;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmAHair;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmAFace;
-        private System.Windows.Forms.DataGridViewTextBoxColumn clmASkin;
-        private System.Windows.Forms.DataGridViewButtonColumn clmAEyeColor;
-        private System.Windows.Forms.DataGridViewButtonColumn clmAEyeBColor;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
@@ -824,5 +827,13 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn clmOAccessory;
         private System.Windows.Forms.DataGridViewComboBoxColumn clmOSocks;
         private System.Windows.Forms.DataGridViewComboBoxColumn clmOShoes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmAGirlName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmAAddress;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmAHair;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmAFace;
+        private System.Windows.Forms.DataGridViewComboBoxColumn clmASkin;
+        private System.Windows.Forms.DataGridViewButtonColumn clmAEyeColor;
+        private System.Windows.Forms.DataGridViewButtonColumn clmAEyeBColor;
     }
 }
