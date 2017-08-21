@@ -282,7 +282,7 @@
             this.dgvOutfit.Name = "dgvOutfit";
             this.dgvOutfit.RowHeadersVisible = false;
             this.dgvOutfit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvOutfit.Size = new System.Drawing.Size(795, 579);
+            this.dgvOutfit.Size = new System.Drawing.Size(922, 579);
             this.dgvOutfit.TabIndex = 6;
             this.dgvOutfit.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvOutfit.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
