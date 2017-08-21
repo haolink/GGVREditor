@@ -50,11 +50,6 @@
     <Compile Include="BaseEditFields.cs" />
     <Compile Include="BoyerMoore.cs" />
     <Compile Include="ColorComparable.cs" />
-    <Compile Include="ColorGrid\ColorCell.cs" />
-    <Compile Include="ColorGrid\ColorColumn.cs" />
-    <Compile Include="ColorGrid\ColorEditingControl.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="EditSettings.cs" />
     <Compile Include="GGVRBaseDataType.cs" />
     <Compile Include="GGVRDataType.cs" />
