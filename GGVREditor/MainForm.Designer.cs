@@ -45,9 +45,27 @@
             this.tsMainShowAddresses = new System.Windows.Forms.ToolStripMenuItem();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dgvOutfit = new System.Windows.Forms.DataGridView();
+            this.clmOGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmOGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmOAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmOOutfit = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmOAccessory = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmOSocks = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmOShoes = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.dgvAppearance = new System.Windows.Forms.DataGridView();
+            this.clmAGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmAHair = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmAFace = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmASkin = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lblPAKFileInfo = new System.Windows.Forms.Label();
+            this.btnUnpackPAK = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -79,21 +97,6 @@
             this.tsShowFieldAddress = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.dlgColor = new System.Windows.Forms.ColorDialog();
-            this.clmOGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmOGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmOAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmOOutfit = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmOAccessory = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmOSocks = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmOShoes = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmAGirlID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAGirlName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmAHair = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmAFace = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmASkin = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).BeginInit();
@@ -103,6 +106,7 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).BeginInit();
             this.tabPage4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.txtBoxContextMenu.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -249,7 +253,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(807, 591);
+            this.tabPage2.Size = new System.Drawing.Size(934, 591);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Outfit";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -286,6 +290,64 @@
             this.dgvOutfit.CellLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
             this.dgvOutfit.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvData_EditingControlShowing);
             this.dgvOutfit.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvData_SortCompare);
+            // 
+            // clmOGirlID
+            // 
+            this.clmOGirlID.HeaderText = "ID";
+            this.clmOGirlID.Name = "clmOGirlID";
+            this.clmOGirlID.ReadOnly = true;
+            this.clmOGirlID.Width = 30;
+            // 
+            // clmOGirlName
+            // 
+            this.clmOGirlName.HeaderText = "Girl name";
+            this.clmOGirlName.Name = "clmOGirlName";
+            this.clmOGirlName.ReadOnly = true;
+            this.clmOGirlName.Width = 150;
+            // 
+            // clmOAddress
+            // 
+            this.clmOAddress.HeaderText = "Address";
+            this.clmOAddress.Name = "clmOAddress";
+            this.clmOAddress.ReadOnly = true;
+            this.clmOAddress.Visible = false;
+            this.clmOAddress.Width = 85;
+            // 
+            // clmOOutfit
+            // 
+            this.clmOOutfit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmOOutfit.HeaderText = "Outfit";
+            this.clmOOutfit.Name = "clmOOutfit";
+            this.clmOOutfit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOOutfit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOOutfit.Width = 110;
+            // 
+            // clmOAccessory
+            // 
+            this.clmOAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmOAccessory.HeaderText = "Accessory";
+            this.clmOAccessory.Name = "clmOAccessory";
+            this.clmOAccessory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOAccessory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOAccessory.Width = 110;
+            // 
+            // clmOSocks
+            // 
+            this.clmOSocks.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmOSocks.HeaderText = "Socks";
+            this.clmOSocks.Name = "clmOSocks";
+            this.clmOSocks.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOSocks.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOSocks.Width = 220;
+            // 
+            // clmOShoes
+            // 
+            this.clmOShoes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmOShoes.HeaderText = "Shoes";
+            this.clmOShoes.Name = "clmOShoes";
+            this.clmOShoes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmOShoes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmOShoes.Width = 110;
             // 
             // tabPage3
             // 
@@ -333,16 +395,111 @@
             this.dgvAppearance.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgvData_EditingControlShowing);
             this.dgvAppearance.SortCompare += new System.Windows.Forms.DataGridViewSortCompareEventHandler(this.dgvData_SortCompare);
             // 
+            // clmAGirlID
+            // 
+            this.clmAGirlID.HeaderText = "ID";
+            this.clmAGirlID.Name = "clmAGirlID";
+            this.clmAGirlID.ReadOnly = true;
+            this.clmAGirlID.Width = 30;
+            // 
+            // clmAGirlName
+            // 
+            this.clmAGirlName.HeaderText = "Girl name";
+            this.clmAGirlName.Name = "clmAGirlName";
+            this.clmAGirlName.ReadOnly = true;
+            this.clmAGirlName.Width = 150;
+            // 
+            // clmAAddress
+            // 
+            this.clmAAddress.HeaderText = "Address";
+            this.clmAAddress.Name = "clmAAddress";
+            this.clmAAddress.ReadOnly = true;
+            this.clmAAddress.Visible = false;
+            this.clmAAddress.Width = 85;
+            // 
+            // clmAHair
+            // 
+            this.clmAHair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAHair.HeaderText = "Hair";
+            this.clmAHair.Name = "clmAHair";
+            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAHair.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmAHair.Width = 200;
+            // 
+            // clmAFace
+            // 
+            this.clmAFace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAFace.HeaderText = "Face";
+            this.clmAFace.Name = "clmAFace";
+            this.clmAFace.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAFace.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmAFace.Width = 110;
+            // 
+            // clmASkin
+            // 
+            this.clmASkin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmASkin.HeaderText = "Skin";
+            this.clmASkin.Name = "clmASkin";
+            this.clmASkin.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmASkin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.clmASkin.Width = 110;
+            // 
+            // clmAEyeColor
+            // 
+            this.clmAEyeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeColor.HeaderText = "Eye colour";
+            this.clmAEyeColor.Name = "clmAEyeColor";
+            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // clmAEyeBColor
+            // 
+            this.clmAEyeBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
+            this.clmAEyeBColor.Name = "clmAEyeBColor";
+            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.groupBox2);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(807, 591);
+            this.tabPage4.Size = new System.Drawing.Size(934, 591);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Additional settings";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.lblPAKFileInfo);
+            this.groupBox3.Controls.Add(this.btnUnpackPAK);
+            this.groupBox3.Location = new System.Drawing.Point(393, 8);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(379, 238);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "PAK file unpacking";
+            // 
+            // lblPAKFileInfo
+            // 
+            this.lblPAKFileInfo.Location = new System.Drawing.Point(6, 45);
+            this.lblPAKFileInfo.Name = "lblPAKFileInfo";
+            this.lblPAKFileInfo.Size = new System.Drawing.Size(362, 183);
+            this.lblPAKFileInfo.TabIndex = 10;
+            this.lblPAKFileInfo.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // btnUnpackPAK
+            // 
+            this.btnUnpackPAK.Location = new System.Drawing.Point(6, 19);
+            this.btnUnpackPAK.Name = "btnUnpackPAK";
+            this.btnUnpackPAK.Size = new System.Drawing.Size(362, 23);
+            this.btnUnpackPAK.TabIndex = 9;
+            this.btnUnpackPAK.Text = "Unpack game PAK file";
+            this.btnUnpackPAK.UseVisualStyleBackColor = true;
+            this.btnUnpackPAK.Click += new System.EventHandler(this.btnUnpackPAK_Click);
             // 
             // groupBox2
             // 
@@ -616,129 +773,6 @@
             this.dlgColor.AnyColor = true;
             this.dlgColor.FullOpen = true;
             // 
-            // clmOGirlID
-            // 
-            this.clmOGirlID.HeaderText = "ID";
-            this.clmOGirlID.Name = "clmOGirlID";
-            this.clmOGirlID.ReadOnly = true;
-            this.clmOGirlID.Width = 30;
-            // 
-            // clmOGirlName
-            // 
-            this.clmOGirlName.HeaderText = "Girl name";
-            this.clmOGirlName.Name = "clmOGirlName";
-            this.clmOGirlName.ReadOnly = true;
-            this.clmOGirlName.Width = 150;
-            // 
-            // clmOAddress
-            // 
-            this.clmOAddress.HeaderText = "Address";
-            this.clmOAddress.Name = "clmOAddress";
-            this.clmOAddress.ReadOnly = true;
-            this.clmOAddress.Visible = false;
-            this.clmOAddress.Width = 85;
-            // 
-            // clmOOutfit
-            // 
-            this.clmOOutfit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmOOutfit.HeaderText = "Outfit";
-            this.clmOOutfit.Name = "clmOOutfit";
-            this.clmOOutfit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmOOutfit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOOutfit.Width = 110;
-            // 
-            // clmOAccessory
-            // 
-            this.clmOAccessory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmOAccessory.HeaderText = "Accessory";
-            this.clmOAccessory.Name = "clmOAccessory";
-            this.clmOAccessory.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmOAccessory.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOAccessory.Width = 110;
-            // 
-            // clmOSocks
-            // 
-            this.clmOSocks.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmOSocks.HeaderText = "Socks";
-            this.clmOSocks.Name = "clmOSocks";
-            this.clmOSocks.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmOSocks.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOSocks.Width = 220;
-            // 
-            // clmOShoes
-            // 
-            this.clmOShoes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmOShoes.HeaderText = "Shoes";
-            this.clmOShoes.Name = "clmOShoes";
-            this.clmOShoes.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmOShoes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmOShoes.Width = 110;
-            // 
-            // clmAGirlID
-            // 
-            this.clmAGirlID.HeaderText = "ID";
-            this.clmAGirlID.Name = "clmAGirlID";
-            this.clmAGirlID.ReadOnly = true;
-            this.clmAGirlID.Width = 30;
-            // 
-            // clmAGirlName
-            // 
-            this.clmAGirlName.HeaderText = "Girl name";
-            this.clmAGirlName.Name = "clmAGirlName";
-            this.clmAGirlName.ReadOnly = true;
-            this.clmAGirlName.Width = 150;
-            // 
-            // clmAAddress
-            // 
-            this.clmAAddress.HeaderText = "Address";
-            this.clmAAddress.Name = "clmAAddress";
-            this.clmAAddress.ReadOnly = true;
-            this.clmAAddress.Visible = false;
-            this.clmAAddress.Width = 85;
-            // 
-            // clmAHair
-            // 
-            this.clmAHair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAHair.HeaderText = "Hair";
-            this.clmAHair.Name = "clmAHair";
-            this.clmAHair.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAHair.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmAHair.Width = 200;
-            // 
-            // clmAFace
-            // 
-            this.clmAFace.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAFace.HeaderText = "Face";
-            this.clmAFace.Name = "clmAFace";
-            this.clmAFace.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAFace.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmAFace.Width = 110;
-            // 
-            // clmASkin
-            // 
-            this.clmASkin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmASkin.HeaderText = "Skin";
-            this.clmASkin.Name = "clmASkin";
-            this.clmASkin.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmASkin.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.clmASkin.Width = 110;
-            // 
-            // clmAEyeColor
-            // 
-            this.clmAEyeColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAEyeColor.HeaderText = "Eye colour";
-            this.clmAEyeColor.Name = "clmAEyeColor";
-            this.clmAEyeColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
-            // clmAEyeBColor
-            // 
-            this.clmAEyeBColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.clmAEyeBColor.HeaderText = "Eyebrow Colour";
-            this.clmAEyeBColor.Name = "clmAEyeBColor";
-            this.clmAEyeBColor.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.clmAEyeBColor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -758,6 +792,7 @@
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).EndInit();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.txtBoxContextMenu.ResumeLayout(false);
@@ -835,5 +870,8 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn clmASkin;
         private System.Windows.Forms.DataGridViewButtonColumn clmAEyeColor;
         private System.Windows.Forms.DataGridViewButtonColumn clmAEyeBColor;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label lblPAKFileInfo;
+        private System.Windows.Forms.Button btnUnpackPAK;
     }
 }

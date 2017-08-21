@@ -28,6 +28,7 @@ namespace GGVREditor
         private const string FILE_PLAYER_PARAMETERS_UASSET = @"GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset";
 
         private const string FILE_PAK_FILE = @"GalGunVR\Content\Paks\GalGunVR-WindowsNoEditor.pak";
+        private const string FILE_SIG_FILE = @"GalGunVR\Content\Paks\GalGunVR-WindowsNoEditor.sig";
 
         private static readonly string[] unpackedFilesCheck = new string[]
         {
@@ -149,6 +150,11 @@ namespace GGVREditor
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
+            LoadSettings();
+        }
+
+        private void LoadSettings()
+        {
             EditSettings settings = new EditSettings();
             settings.UsePAKFile = false;
 
@@ -175,22 +181,35 @@ namespace GGVREditor
             }
             while (!hasPak && !hasUnpacked);
 
-            if(!hasPak && !hasUnpacked)
+            if (!hasPak && !hasUnpacked)
             {
                 Close();
                 return;
             }
 
             settings.GameDirectory = dir;
-            
-            if(hasPak && hasUnpacked)
+
+            if(!hasPak)
+            {
+                this.lblPAKFileInfo.Text = "\r\nThe PAK file is already unpacked.\r\n\r\nThis feature is disabled.";
+                this.btnUnpackPAK.Enabled = false;
+            }
+            else
+            {
+                this.lblPAKFileInfo.Text = "\r\nThe game comes with a big file called GalGunVR-WindowsNoEditor.pak . You can have this file unpacked. This editor will happily function even if all files are unpacked from it.\r\n\r\n" +
+                    "Using an unpacked file allows you to edit several settings while the game is running - the game will also load faster so you even have a bit of an advantage.\r\n" +
+                    "Unpacking requires 2 GB of disk space.\r\n\r\nDuring the unpacking the game mustn't be running!";
+                this.btnUnpackPAK.Enabled = true;
+            }
+
+            if (hasPak && hasUnpacked)
             {
                 PackedOrUnpacked pou = new PackedOrUnpacked();
                 pou.ShowDialog();
 
                 settings.UsePAKFile = (pou.Result == PackedOrUnpacked.POUResult.PAK);
             }
-            else if(hasPak)
+            else if (hasPak)
             {
                 settings.UsePAKFile = true;
             }
@@ -200,7 +219,7 @@ namespace GGVREditor
             }
             settings.SaveSettings();
 
-            if(settings.UsePAKFile)
+            if (settings.UsePAKFile)
             {
                 this.GetPAKFileMainOffsets();
             }
@@ -263,7 +282,7 @@ namespace GGVREditor
                     string fnSwapped = fn.Replace(Path.DirectorySeparatorChar, '/');
                     if(fnSwapped == fileName)
                     {
-                        this._pakOffsets.Add(fn, new FileInPakLocation(fOffset, (int)fSize, hashLocation));
+                        this._pakOffsets.Add(fn, new FileInPakLocation(fileName, fOffset, (int)fSize, (int)fSize, hashLocation, enc == 1));
                     }
                 }
             }
@@ -658,22 +677,37 @@ namespace GGVREditor
             FileStream fs = null;
             BinaryWriter bw = null;
 
-            //Todo: PAK file
             if(this._settings.UsePAKFile)
             {
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                bw = new BinaryWriter(fs);
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the PAK file for writing. Make sure that Gal*Gun VR isn't currently running!");
+                    return;
+                }
             }
             else
             {
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                bw = new BinaryWriter(fs);
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the Visual Data asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
+                    return;
+                }
             }
             
 
             foreach (GGVRGirl girl in this._girls)
             {
-                //girl.WriteAll(bw);
+                girl.WriteAll(bw);
             }
 
             if (!this._settings.UsePAKFile)
@@ -682,11 +716,19 @@ namespace GGVREditor
                 fs.Close();
                 fs = null;
 
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GIRLS_HEIGHT_CURVE_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                bw = new BinaryWriter(fs);
-            }
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GIRLS_HEIGHT_CURVE_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the Girl Height asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
+                    return;
+                }
+        }
 
-            //this._girlHeightFields.WriteAll(bw);
+            this._girlHeightFields.WriteAll(bw);
             
             if (!this._settings.UsePAKFile)
             {
@@ -694,14 +736,22 @@ namespace GGVREditor
                 fs.Close();
                 fs = null;
 
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PLAYER_PARAMETERS_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                bw = new BinaryWriter(fs);
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PLAYER_PARAMETERS_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the Player parameter asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
+                    return;
+                }
             }
             
 
-            //this._playerParameters.WriteAll(bw);
+            this._playerParameters.WriteAll(bw);
 
-            if(this._settings.UsePAKFile) //Calculate hashes
+            /*if(this._settings.UsePAKFile) //Calculate hashes
             {
                 SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
                 foreach(KeyValuePair<string, FileInPakLocation> kvp in this._pakOffsets)
@@ -715,7 +765,7 @@ namespace GGVREditor
                     fs.Write(hash, 0, 20);
                 }
                 sha1 = null;
-            }
+            }*/
 
             bw = null;
             fs.Close();
@@ -1148,6 +1198,28 @@ namespace GGVREditor
                 MessageBox.Show("Address: " + address + "\r\n\r\n" + "Copied to clipboard.");
             }
             
+        }
+
+        private void btnUnpackPAK_Click(object sender, EventArgs e)
+        {
+            if(File.Exists(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE))
+            {
+                if(MessageBox.Show("This process cannot be cancelled. Gal*Gun mustn't be running. Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+
+                UnpackProgress up = new UnpackProgress();
+                up.PakFile = this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE;
+                up.SigFile = this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_SIG_FILE;
+                up.UnpackFolder = this._settings.GameDirectory;
+
+                up.ShowDialog();
+
+                up = null;
+
+                LoadSettings();
+            }
         }
     }
 }
