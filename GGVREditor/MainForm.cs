@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 
 using System.IO;
+using System.Security.Cryptography;
 
 namespace GGVREditor
 {
@@ -19,6 +20,31 @@ namespace GGVREditor
         {
             Undetermined, Fixed
         }
+
+        private const string FILE_EXECUTABLE = @"GalGunVR\Binaries\Win64\GalGunVR-Win64-Shipping.exe";
+
+        private const string FILE_GAL_VISUAL_DATA_UASSET = @"GalGunVR\Content\VRGG\DataTable\GalData\GalVisualDatas.uasset";
+        private const string FILE_GIRLS_HEIGHT_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset";
+        private const string FILE_PLAYER_PARAMETERS_UASSET = @"GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset";
+
+        private const string FILE_PAK_FILE = @"GalGunVR\Content\Paks\GalGunVR-WindowsNoEditor.pak";
+
+        private static readonly string[] unpackedFilesCheck = new string[]
+        {
+            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET
+        };
+
+        private static readonly string[] packedFilesCheck = new string[]
+        {
+            FILE_PAK_FILE
+        };
+
+        private static readonly string[] packedFilesRequired = new string[]
+        {
+            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET
+        };
+
+        private Dictionary<string, FileInPakLocation> _pakOffsets;
 
         private Control _selectedControl;
 
@@ -104,6 +130,22 @@ namespace GGVREditor
             PopulateComboboxColumn<byte, string>(clmASkin, skins);
         }
 
+        private bool CheckFiles(string directory, string[] checkedFiles)
+        {            
+            if(!Directory.Exists(directory))
+            {
+                return false;
+            }
+
+            foreach(string fileCheck in checkedFiles)
+            {
+                if(!File.Exists(directory + Path.DirectorySeparatorChar + fileCheck))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -118,31 +160,144 @@ namespace GGVREditor
             fbd.SelectedPath = dir;
             fbd.Description = "Please select the Gal*Gun VR install folder!";
 
-            bool found = true;
-            while (!Directory.Exists(dir) || !File.Exists(dir + @"\GalGunVR.exe") || !File.Exists(dir + @"\GalGunVR\GalGunVR.uproject"))
-            {
-                found = false;
+            bool hasPak = false;
+            bool hasUnpacked = false;
 
-                if (fbd.ShowDialog() != DialogResult.OK)
+            do
+            {
+                hasPak = this.CheckFiles(dir, packedFilesCheck);
+                hasUnpacked = this.CheckFiles(dir, unpackedFilesCheck);
+
+                if (!hasPak && !hasUnpacked && fbd.ShowDialog() != DialogResult.OK)
                 {
                     break;
                 }
-
-                found = true;
-                dir = fbd.SelectedPath;
             }
+            while (!hasPak && !hasUnpacked);
 
-            if (found)
-            {
-                settings.GameDirectory = dir;
-                settings.SaveSettings();
-            }
-            else
+            if(!hasPak && !hasUnpacked)
             {
                 Close();
                 return;
             }
 
+            settings.GameDirectory = dir;
+            
+            if(hasPak && hasUnpacked)
+            {
+                PackedOrUnpacked pou = new PackedOrUnpacked();
+                pou.ShowDialog();
+
+                settings.UsePAKFile = (pou.Result == PackedOrUnpacked.POUResult.PAK);
+            }
+            else if(hasPak)
+            {
+                settings.UsePAKFile = true;
+            }
+            else
+            {
+                settings.UsePAKFile = false;
+            }
+            settings.SaveSettings();
+
+            if(settings.UsePAKFile)
+            {
+                this.GetPAKFileMainOffsets();
+            }
+
+            this.ReloadData();
+        }
+
+        private void GetPAKFileMainOffsets()
+        {
+            this._pakOffsets = new Dictionary<string, FileInPakLocation>();
+
+            FileStream fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BinaryReader br = new BinaryReader(fs);
+
+            if(fs.Length < 100)
+            {
+                MessageBox.Show("Unable to parse PAK file! Invalid length!");
+                fs.Close();
+                Close();
+            }
+
+            br.BaseStream.Seek(-0x2C, SeekOrigin.End);
+            uint magic = br.ReadUInt32();
+            if(magic != 0x5A6F12E1)
+            {
+                MessageBox.Show("Unable to parse PAK file! Magic bytes incorrect!");
+                fs.Close();
+                Close();
+            }
+            br.ReadUInt32();
+            long offset = br.ReadInt64();
+            long size = br.ReadInt64();
+
+            br.BaseStream.Seek(offset, SeekOrigin.Begin);
+            ReadName(br);
+
+            int fileCount = br.ReadInt32();
+
+            for(int i = 0; i < fileCount; i++)
+            {
+                string fileName = ReadName(br);
+                long pos = br.BaseStream.Position;
+
+                long fOffset = br.ReadInt64();
+                long fZSize = br.ReadInt64();
+                long fSize = br.ReadInt64();
+                int compression = br.ReadInt32();
+
+                long hashLocation = br.BaseStream.Position;
+                br.BaseStream.Seek(20, SeekOrigin.Current);
+
+                byte enc = br.ReadByte();
+                int chunkSize = br.ReadInt32();
+
+                long bPos = br.BaseStream.Position;
+                fOffset += (bPos - pos);
+
+                foreach(string fn in packedFilesRequired)
+                {
+                    string fnSwapped = fn.Replace(Path.DirectorySeparatorChar, '/');
+                    if(fnSwapped == fileName)
+                    {
+                        this._pakOffsets.Add(fn, new FileInPakLocation(fOffset, (int)fSize, hashLocation));
+                    }
+                }
+            }
+
+            br = null;
+            fs.Close(); 
+
+            if (this._pakOffsets.Count != packedFilesRequired.Length)
+            {
+                MessageBox.Show("Wasn't able to find all required files in the PAK file.");
+                Close();
+            }
+        }
+
+        private string ReadName(BinaryReader br)
+        {
+            int length = br.ReadInt32();
+            if(length >= 0) //Ascii
+            {
+                byte[] buffer = new byte[length];
+                br.BaseStream.Read(buffer, 0, length);
+                return Encoding.ASCII.GetString(buffer).Trim(new char[] { '\0', '\r', '\n' });
+            }
+            else
+            {
+                length = (-2) * length;
+                byte[] buffer = new byte[length];
+                br.BaseStream.Read(buffer, 0, length);
+                return Encoding.Unicode.GetString(buffer).Trim(new char[] { '\0', '\r', '\n' });
+            }
+        }
+
+        private void ReloadData()
+        {
             this.LoadValues();
 
             this.FillGrid();
@@ -176,12 +331,34 @@ namespace GGVREditor
         private void LoadValues()
         {
             //TODO: Handle PAK file
+            FileStream fs = null;
+            BinaryReader br = null;
+            byte[] buffer = null;
+            FileInPakLocation fipl = null;
+            long baseOffset = 0;
 
-            FileStream fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\GalData\GalVisualDatas.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            BinaryReader br = new BinaryReader(fs);
-            byte[] buffer = new byte[(int)fs.Length];
-            fs.Seek(0, SeekOrigin.Begin);
-            fs.Read(buffer, 0, (int)fs.Length);
+            if(this._settings.UsePAKFile)
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                br = new BinaryReader(fs);
+            }
+
+            if (!this._settings.UsePAKFile)
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                br = new BinaryReader(fs);
+                buffer = new byte[(int)fs.Length];
+                fs.Seek(0, SeekOrigin.Begin);
+                fs.Read(buffer, 0, (int)fs.Length);
+            }
+            else
+            {
+                fipl = this._pakOffsets[FILE_GAL_VISUAL_DATA_UASSET];
+                baseOffset = fipl.FileOffset;
+                buffer = new byte[fipl.FileSize];
+                fs.Seek(baseOffset, SeekOrigin.Begin);
+                fs.Read(buffer, 0, fipl.FileSize);
+            }
             
             byte initial = 0x3B;
             List<long> locations;
@@ -202,7 +379,8 @@ namespace GGVREditor
                 if (locations.Count >= 0)
                 {
                     offsets[i] = (int)locations[0];
-                } else
+                }
+                else
                 {
                     offsets[i] = -1;
                 }
@@ -221,67 +399,89 @@ namespace GGVREditor
                     g.ID = i + 1;
                     g.Name = characterNames[i];
 
-                    g.Height = this.LoadValueAndOriginal<float>(br, offsets[i] + 0x112, gPrep, "Height");
-                    g.HeadSizeRatio = this.LoadValueAndOriginal<float>(br, offsets[i] + 0x12F, gPrep, "HeadSizeRatio");
-                    g.Bust = this.LoadValueAndOriginal<float>(br, offsets[i] + 0x14C, gPrep, "Bust");
-                    g.Waist = this.LoadValueAndOriginal<float>(br, offsets[i] + 0x169, gPrep, "Waist");
-                    g.Hip = this.LoadValueAndOriginal<float>(br, offsets[i] + 0x186, gPrep, "Hip");
+                    g.Height = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x112, gPrep, "Height");
+                    g.HeadSizeRatio = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x12F, gPrep, "HeadSizeRatio");
+                    g.Bust = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x14C, gPrep, "Bust");
+                    g.Waist = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x169, gPrep, "Waist");
+                    g.Hip = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x186, gPrep, "Hip");
 
-                    g.Outfit = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x1DC, gPrep, "Outfit");
-                    g.Accessory = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x2D2, gPrep, "Accessory");
-                    g.Socks = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x31C, gPrep, "Socks");
-                    g.Shoes = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x35E, gPrep, "Shoes");
+                    g.Outfit = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x1DC, gPrep, "Outfit");
+                    g.Accessory = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x2D2, gPrep, "Accessory");
+                    g.Socks = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x31C, gPrep, "Socks");
+                    g.Shoes = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x35E, gPrep, "Shoes");
 
-                    g.Hair = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x21, gPrep, "Hair");
-                    g.Face = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0x46, gPrep, "Face");
-                    g.Skin = this.LoadValueAndOriginal<byte>(br, offsets[i] + 0xF1, gPrep, "Skin");
-                    g.EyeColor = this.LoadValueAndOriginal<ColorComparable>(br, offsets[i] + 0x7F, gPrep, "EyeColor");
-                    g.EyeBrowColor = this.LoadValueAndOriginal<ColorComparable>(br, offsets[i] + 0xC0, gPrep, "EyeBrowColor");
+                    g.Hair = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x21, gPrep, "Hair");
+                    g.Face = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x46, gPrep, "Face");
+                    g.Skin = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0xF1, gPrep, "Skin");
+                    g.EyeColor = this.LoadValueAndOriginal<ColorComparable>(br, baseOffset + offsets[i] + 0x7F, gPrep, "EyeColor");
+                    g.EyeBrowColor = this.LoadValueAndOriginal<ColorComparable>(br, baseOffset + offsets[i] + 0xC0, gPrep, "EyeBrowColor");
 
                     girls.Add(g);
                 }
             }
 
-            br = null;
-            fs.Close();
-
             this._girls = girls.ToArray();
 
-            fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            br = new BinaryReader(fs);
-            buffer = new byte[(int)fs.Length];
-            fs.Seek(0, SeekOrigin.Begin);
-            fs.Read(buffer, 0, (int)fs.Length);
+            if (!this._settings.UsePAKFile)
+            {
+                br = null;
+                fs.Close();
+
+                fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                br = new BinaryReader(fs);
+                buffer = new byte[(int)fs.Length];
+                fs.Seek(0, SeekOrigin.Begin);
+                fs.Read(buffer, 0, (int)fs.Length);
+            }
+            else
+            {
+                fipl = this._pakOffsets[FILE_GIRLS_HEIGHT_CURVE_UASSET];
+                baseOffset = fipl.FileOffset;
+                buffer = new byte[fipl.FileSize];
+                fs.Seek(baseOffset, SeekOrigin.Begin);
+                fs.Read(buffer, 0, fipl.FileSize);
+            }
 
             needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
 
             if(locations.Count == 2)
             {
-                this._girlHeightFields.AddRelation(txtMinCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x2C, "GirlHeights", "MinCM"));
-                this._girlHeightFields.AddRelation(txtMinScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x30, "GirlHeights", "MinScale"));
-                this._girlHeightFields.AddRelation(txtNormCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x47, "GirlHeights", "NormCM"));
-                this._girlHeightFields.AddRelation(txtNormScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x4B, "GirlHeights", "NormScale"));
-                this._girlHeightFields.AddRelation(txtMaxCM, this.LoadValueAndOriginal<float>(br, locations[0] + 0x62, "GirlHeights", "MaxCM"));
-                this._girlHeightFields.AddRelation(txtMaxScale, this.LoadValueAndOriginal<float>(br, locations[0] + 0x66, "GirlHeights", "MaxScale"));
+                this._girlHeightFields.AddRelation(txtMinCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x2C, "GirlHeights", "MinCM"));
+                this._girlHeightFields.AddRelation(txtMinScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x30, "GirlHeights", "MinScale"));
+                this._girlHeightFields.AddRelation(txtNormCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x47, "GirlHeights", "NormCM"));
+                this._girlHeightFields.AddRelation(txtNormScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x4B, "GirlHeights", "NormScale"));
+                this._girlHeightFields.AddRelation(txtMaxCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlHeights", "MaxCM"));
+                this._girlHeightFields.AddRelation(txtMaxScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlHeights", "MaxScale"));
             }
 
-            br = null;
-            fs.Close();
+            if (!this._settings.UsePAKFile)
+            {
+                br = null;
+                fs.Close();
 
-            fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            br = new BinaryReader(fs);
-            buffer = new byte[(int)fs.Length];
-            fs.Seek(0, SeekOrigin.Begin);
-            fs.Read(buffer, 0, (int)fs.Length);
+                fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                br = new BinaryReader(fs);
+                buffer = new byte[(int)fs.Length];
+                fs.Seek(0, SeekOrigin.Begin);
+                fs.Read(buffer, 0, (int)fs.Length);
+            }
+            else
+            {
+                fipl = this._pakOffsets[FILE_PLAYER_PARAMETERS_UASSET];
+                baseOffset = fipl.FileOffset;
+                buffer = new byte[fipl.FileSize];
+                fs.Seek(baseOffset, SeekOrigin.Begin);
+                fs.Read(buffer, 0, fipl.FileSize);
+            }
 
             needle = new byte[] { 0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
 
             if (locations.Count == 1)
             {
-                this._playerParameters.AddRelation(txtInitialHealth, this.LoadValueAndOriginal<float>(br, locations[0] + 0x1C, "PlayerParams", "Health"));
-                this._playerParameters.AddRelation(txtDepletionRate, this.LoadValueAndOriginal<float>(br, locations[0] + 0x73, "PlayerParams", "Depletion"));                
+                this._playerParameters.AddRelation(txtInitialHealth, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x1C, "PlayerParams", "Health"));
+                this._playerParameters.AddRelation(txtDepletionRate, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x73, "PlayerParams", "Depletion"));                
             }
 
             br = null;
@@ -455,32 +655,71 @@ namespace GGVREditor
 
         public void SaveFile()
         {
+            FileStream fs = null;
+            BinaryWriter bw = null;
+
             //Todo: PAK file
-            FileStream fsGVD = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\GalData\GalVisualDatas.uasset", FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            BinaryWriter bwGVD = new BinaryWriter(fsGVD);
+            if(this._settings.UsePAKFile)
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                bw = new BinaryWriter(fs);
+            }
+            else
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                bw = new BinaryWriter(fs);
+            }
+            
 
             foreach (GGVRGirl girl in this._girls)
             {
-                girl.WriteAll(bwGVD);
+                //girl.WriteAll(bw);
             }
 
-            bwGVD = null;
-            fsGVD.Close();
-            fsGVD = null;
+            if (!this._settings.UsePAKFile)
+            {
+                bw = null;
+                fs.Close();
+                fs = null;
 
-            FileStream fsGH = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            BinaryWriter bwGH = new BinaryWriter(fsGH);
-            this._girlHeightFields.WriteAll(bwGH);
-            bwGH = null;
-            fsGH.Close();
-            fsGH = null;
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GIRLS_HEIGHT_CURVE_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                bw = new BinaryWriter(fs);
+            }
 
-            FileStream fsPP = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-            BinaryWriter bwPP = new BinaryWriter(fsPP);
-            this._playerParameters.WriteAll(bwPP);
-            bwPP = null;
-            fsPP.Close();
-            fsPP = null;
+            //this._girlHeightFields.WriteAll(bw);
+            
+            if (!this._settings.UsePAKFile)
+            {
+                bw = null;
+                fs.Close();
+                fs = null;
+
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PLAYER_PARAMETERS_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                bw = new BinaryWriter(fs);
+            }
+            
+
+            //this._playerParameters.WriteAll(bw);
+
+            if(this._settings.UsePAKFile) //Calculate hashes
+            {
+                SHA1CryptoServiceProvider sha1 = new SHA1CryptoServiceProvider();
+                foreach(KeyValuePair<string, FileInPakLocation> kvp in this._pakOffsets)
+                {
+                    FileInPakLocation fipl = kvp.Value;
+                    fs.Seek(fipl.FileOffset, SeekOrigin.Begin);
+                    byte[] buffer = new byte[fipl.FileSize];
+                    fs.Read(buffer, 0, fipl.FileSize);
+                    byte[] hash = sha1.ComputeHash(buffer);
+                    fs.Seek(fipl.HashOffset, SeekOrigin.Begin);
+                    fs.Write(hash, 0, 20);
+                }
+                sha1 = null;
+            }
+
+            bw = null;
+            fs.Close();
+            fs = null;
 
             EnableEdited(false);
         }

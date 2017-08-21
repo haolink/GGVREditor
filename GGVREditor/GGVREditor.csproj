@@ -51,6 +51,7 @@
     <Compile Include="BoyerMoore.cs" />
     <Compile Include="ColorComparable.cs" />
     <Compile Include="EditSettings.cs" />
+    <Compile Include="FileInPakLocation.cs" />
     <Compile Include="GGVRBaseDataType.cs" />
     <Compile Include="GGVRDataType.cs" />
     <Compile Include="GGVRGirl.cs" />
@@ -61,6 +62,12 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="PackedOrUnpacked.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PackedOrUnpacked.Designer.cs">
+      <DependentUpon>PackedOrUnpacked.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,6 +77,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PackedOrUnpacked.resx">
+      <DependentUpon>PackedOrUnpacked.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
