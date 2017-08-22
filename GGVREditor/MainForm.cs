@@ -224,6 +224,8 @@ namespace GGVREditor
                 this.GetPAKFileMainOffsets();
             }
 
+            this.EnableEdited(false);
+
             this.ReloadData();
         }
 
@@ -407,7 +409,10 @@ namespace GGVREditor
 
             List<GGVRGirl> girls = new List<GGVRGirl>();
 
-            for(int i = 0; i < offsets.Length; i++)
+            cbCharSwap1.Items.Clear();
+            cbCharSwap2.Items.Clear();
+
+            for (int i = 0; i < offsets.Length; i++)
             {
                 if(offsets[i] > 0)
                 {
@@ -417,6 +422,8 @@ namespace GGVREditor
 
                     g.ID = i + 1;
                     g.Name = characterNames[i];
+
+                    g.BaseID = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i], gPrep, "BaseID");
 
                     g.Height = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x112, gPrep, "Height");
                     g.HeadSizeRatio = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x12F, gPrep, "HeadSizeRatio");
@@ -435,11 +442,20 @@ namespace GGVREditor
                     g.EyeColor = this.LoadValueAndOriginal<ColorComparable>(br, baseOffset + offsets[i] + 0x7F, gPrep, "EyeColor");
                     g.EyeBrowColor = this.LoadValueAndOriginal<ColorComparable>(br, baseOffset + offsets[i] + 0xC0, gPrep, "EyeBrowColor");
 
+                    cbCharSwap1.Items.Add(g.Name + " (0x" + g.BaseID.ToString() + ")");
+                    cbCharSwap2.Items.Add(g.Name + " (0x" + g.BaseID.ToString() + ")");
+
                     girls.Add(g);
                 }
             }
 
             this._girls = girls.ToArray();
+
+            if(this._girls.Length > 0)
+            {
+                cbCharSwap1.SelectedIndex = 0;
+                cbCharSwap2.SelectedIndex = 0;
+            }
 
             if (!this._settings.UsePAKFile)
             {
@@ -1202,6 +1218,14 @@ namespace GGVREditor
 
         private void btnUnpackPAK_Click(object sender, EventArgs e)
         {
+            if(this._edited)
+            {
+                if (MessageBox.Show("There are unsaved changes. If you continue they're lost. Is this okay?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             if(File.Exists(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE))
             {
                 if(MessageBox.Show("This process cannot be cancelled. Gal*Gun mustn't be running. Are you sure?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
@@ -1220,6 +1244,83 @@ namespace GGVREditor
 
                 LoadSettings();
             }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this._edited)
+            {
+                if (MessageBox.Show("There are unsaved changes. If you continue they're lost. Is this okay?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+
+        private void btnSwap_Click(object sender, EventArgs e)
+        {
+            if(cbCharSwap1.SelectedIndex == cbCharSwap2.SelectedIndex)
+            {
+                MessageBox.Show("Please choose two different characters.", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;                
+            }
+
+            if (this._edited)
+            {
+                if (MessageBox.Show("There are unsaved changes. If you continue they're lost. Is this okay?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            GGVRGirl girl1 = this._girls[cbCharSwap1.SelectedIndex];
+            GGVRGirl girl2 = this._girls[cbCharSwap2.SelectedIndex];
+            byte girlIndex1 = girl1.BaseID.Value;
+            byte girlIndex2 = girl2.BaseID.Value;
+
+            FileStream fs = null;
+            BinaryWriter bw = null;
+
+            if (this._settings.UsePAKFile)
+            {
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the PAK file for writing. Make sure that Gal*Gun VR isn't currently running!");
+                    return;
+                }
+            }
+            else
+            {
+                try
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Unable to open the Visual Data asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
+                    return;
+                }
+            }
+
+            girl1.BaseID.Value = girlIndex2;
+            girl2.BaseID.Value = girlIndex1;
+
+            girl1.BaseID.WriteToFile(bw);
+            girl2.BaseID.WriteToFile(bw);
+
+            bw = null;
+            fs.Close();
+            fs = null;
+
+            MessageBox.Show("Characters were successfully swapped!");
+
+            LoadSettings();
         }
     }
 }

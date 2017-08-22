@@ -13,6 +13,8 @@ namespace GGVREditor
         public int ID { get; set; }
         public string Name { get; set; }
 
+        public GGVRDataType<byte> BaseID { get; set; }
+
         public GGVRDataType<float> Height { get; set; }
         public GGVRDataType<float> HeadSizeRatio { get; set; }
         public GGVRDataType<float> Bust { get; set; }

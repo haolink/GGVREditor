@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dgvDataFixed = new System.Windows.Forms.DataGridView();
@@ -63,6 +64,12 @@
             this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cbCharSwap2 = new System.Windows.Forms.ComboBox();
+            this.btnSwap = new System.Windows.Forms.Button();
+            this.cbCharSwap1 = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lblPAKFileInfo = new System.Windows.Forms.Label();
             this.btnUnpackPAK = new System.Windows.Forms.Button();
@@ -106,6 +113,7 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).BeginInit();
             this.tabPage4.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.txtBoxContextMenu.SuspendLayout();
@@ -125,7 +133,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(942, 617);
+            this.tabControl1.Size = new System.Drawing.Size(801, 478);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -462,15 +470,76 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.groupBox2);
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(934, 591);
+            this.tabPage4.Size = new System.Drawing.Size(793, 452);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Additional settings";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.cbCharSwap2);
+            this.groupBox4.Controls.Add(this.btnSwap);
+            this.groupBox4.Controls.Add(this.cbCharSwap1);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Location = new System.Drawing.Point(8, 252);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(379, 185);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Character swap";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(141, 121);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(92, 21);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "< ----------- >";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cbCharSwap2
+            // 
+            this.cbCharSwap2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCharSwap2.FormattingEnabled = true;
+            this.cbCharSwap2.Location = new System.Drawing.Point(239, 121);
+            this.cbCharSwap2.Name = "cbCharSwap2";
+            this.cbCharSwap2.Size = new System.Drawing.Size(129, 21);
+            this.cbCharSwap2.TabIndex = 11;
+            // 
+            // btnSwap
+            // 
+            this.btnSwap.Location = new System.Drawing.Point(6, 148);
+            this.btnSwap.Name = "btnSwap";
+            this.btnSwap.Size = new System.Drawing.Size(362, 23);
+            this.btnSwap.TabIndex = 10;
+            this.btnSwap.Text = "Swap selected characters";
+            this.btnSwap.UseVisualStyleBackColor = true;
+            this.btnSwap.Click += new System.EventHandler(this.btnSwap_Click);
+            // 
+            // cbCharSwap1
+            // 
+            this.cbCharSwap1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbCharSwap1.FormattingEnabled = true;
+            this.cbCharSwap1.Location = new System.Drawing.Point(6, 121);
+            this.cbCharSwap1.Name = "cbCharSwap1";
+            this.cbCharSwap1.Size = new System.Drawing.Size(129, 21);
+            this.cbCharSwap1.TabIndex = 1;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 20);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(367, 97);
+            this.label6.TabIndex = 0;
+            this.label6.Text = resources.GetString("label6.Text");
+            this.label6.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // groupBox3
             // 
@@ -760,9 +829,9 @@
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Enabled = false;
-            this.btnSave.Location = new System.Drawing.Point(16, 635);
+            this.btnSave.Location = new System.Drawing.Point(16, 496);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(938, 33);
+            this.btnSave.Size = new System.Drawing.Size(797, 33);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -777,11 +846,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(966, 680);
+            this.ClientSize = new System.Drawing.Size(825, 541);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
+            this.MinimumSize = new System.Drawing.Size(840, 580);
             this.Name = "MainForm";
             this.Text = "Gal*Gun VR Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -792,6 +863,7 @@
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).EndInit();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -873,5 +945,11 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label lblPAKFileInfo;
         private System.Windows.Forms.Button btnUnpackPAK;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cbCharSwap2;
+        private System.Windows.Forms.Button btnSwap;
+        private System.Windows.Forms.ComboBox cbCharSwap1;
+        private System.Windows.Forms.Label label6;
     }
 }
