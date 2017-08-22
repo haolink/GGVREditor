@@ -104,6 +104,8 @@
             this.tsShowFieldAddress = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.dlgColor = new System.Windows.Forms.ColorDialog();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).BeginInit();
@@ -119,6 +121,8 @@
             this.txtBoxContextMenu.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.cellContextMenu.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -142,7 +146,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(934, 591);
+            this.tabPage1.Size = new System.Drawing.Size(793, 452);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Size";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -261,7 +265,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(934, 591);
+            this.tabPage2.Size = new System.Drawing.Size(793, 452);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Outfit";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -362,7 +366,7 @@
             this.tabPage3.Controls.Add(this.dgvAppearance);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(934, 591);
+            this.tabPage3.Size = new System.Drawing.Size(793, 452);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Appearance";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -470,6 +474,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.groupBox5);
             this.tabPage4.Controls.Add(this.groupBox4);
             this.tabPage4.Controls.Add(this.groupBox3);
             this.tabPage4.Controls.Add(this.groupBox2);
@@ -842,6 +847,25 @@
             this.dlgColor.AnyColor = true;
             this.dlgColor.FullOpen = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.pictureBox1);
+            this.groupBox5.Location = new System.Drawing.Point(394, 253);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(378, 184);
+            this.groupBox5.TabIndex = 14;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Random art to remind us SHE was used to advertise this game!";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(8, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(364, 159);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -871,6 +895,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.cellContextMenu.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -951,5 +977,7 @@
         private System.Windows.Forms.Button btnSwap;
         private System.Windows.Forms.ComboBox cbCharSwap1;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

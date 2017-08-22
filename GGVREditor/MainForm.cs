@@ -8,7 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 
 using System.IO;
-using System.Security.Cryptography;
+using System.Threading;
+using System.Resources;
+using System.Collections;
 
 namespace GGVREditor
 {
@@ -150,6 +152,13 @@ namespace GGVREditor
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
+            object picture = Properties.Resources.ResourceManager.GetObject("Shinobu");
+            if(picture != null && picture is Bitmap)
+            {
+                pictureBox1.Image = (Bitmap)picture;
+            }            
+
+
             LoadSettings();
         }
 
