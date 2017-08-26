@@ -183,9 +183,13 @@ namespace GGVREditor
                 hasPak = this.CheckFiles(dir, packedFilesCheck);
                 hasUnpacked = this.CheckFiles(dir, unpackedFilesCheck);
 
-                if (!hasPak && !hasUnpacked && fbd.ShowDialog() != DialogResult.OK)
+                if (!hasPak && !hasUnpacked)
                 {
-                    break;
+                    if(fbd.ShowDialog() != DialogResult.OK)
+                    {
+                        break;
+                    }
+                    dir = fbd.SelectedPath;
                 }
             }
             while (!hasPak && !hasUnpacked);
@@ -692,12 +696,13 @@ namespace GGVREditor
         private void btnSave_Click(object sender, EventArgs e)
         {
             this.Focus();
-            SaveFile();
-
-            MessageBox.Show("File saved.");
+            if(SaveFile())
+            {
+                MessageBox.Show("Changes saved.");
+            }            
         }
 
-        public void SaveFile()
+        public bool SaveFile()
         {
             FileStream fs = null;
             BinaryWriter bw = null;
@@ -712,7 +717,7 @@ namespace GGVREditor
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unable to open the PAK file for writing. Make sure that Gal*Gun VR isn't currently running!");
-                    return;
+                    return false;
                 }
             }
             else
@@ -725,7 +730,7 @@ namespace GGVREditor
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unable to open the Visual Data asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return;
+                    return false;
                 }
             }
             
@@ -749,7 +754,7 @@ namespace GGVREditor
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unable to open the Girl Height asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return;
+                    return false;
                 }
         }
 
@@ -769,7 +774,7 @@ namespace GGVREditor
                 catch (Exception ex)
                 {
                     MessageBox.Show("Unable to open the Player parameter asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return;
+                    return false;
                 }
             }
             
@@ -797,6 +802,8 @@ namespace GGVREditor
             fs = null;
 
             EnableEdited(false);
+
+            return true;
         }
 
 
@@ -1330,6 +1337,24 @@ namespace GGVREditor
             MessageBox.Show("Characters were successfully swapped!");
 
             LoadSettings();
+        }
+
+        private void tsMainRestoreAll_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Do you wish to restore all values to their respective original values?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                return;
+            }
+
+            foreach (GGVRGirl g in this._girls)
+            {
+                g.RestoreAll();
+            }
+            this._playerParameters.RestoreAll();
+            this._girlHeightFields.RestoreAll();
+
+            this.ReloadData();
+            this.EnableEdited(true);
         }
     }
 }

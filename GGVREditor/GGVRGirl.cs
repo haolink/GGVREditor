@@ -66,5 +66,13 @@ namespace GGVREditor
                 }
             }
         }
+
+        public void RestoreAll()
+        {
+            foreach (GGVRBaseDataType field in GetFields())
+            {
+                field.RestoreOriginal();
+            }
+        }
     }
 }

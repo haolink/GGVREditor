@@ -64,6 +64,8 @@
             this.clmAEyeColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.clmAEyeBColor = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cbCharSwap2 = new System.Windows.Forms.ComboBox();
@@ -104,8 +106,6 @@
             this.tsShowFieldAddress = new System.Windows.Forms.ToolStripMenuItem();
             this.btnSave = new System.Windows.Forms.Button();
             this.dlgColor = new System.Windows.Forms.ColorDialog();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDataFixed)).BeginInit();
@@ -115,14 +115,14 @@
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).BeginInit();
             this.tabPage4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.txtBoxContextMenu.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.cellContextMenu.SuspendLayout();
-            this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -137,7 +137,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(801, 478);
+            this.tabControl1.Size = new System.Drawing.Size(860, 478);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -146,7 +146,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(793, 452);
+            this.tabPage1.Size = new System.Drawing.Size(852, 452);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Size";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -176,7 +176,7 @@
             this.dgvDataFixed.Name = "dgvDataFixed";
             this.dgvDataFixed.RowHeadersVisible = false;
             this.dgvDataFixed.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvDataFixed.Size = new System.Drawing.Size(922, 578);
+            this.dgvDataFixed.Size = new System.Drawing.Size(840, 440);
             this.dgvDataFixed.TabIndex = 5;
             this.dgvDataFixed.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvDataFixed.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
@@ -243,13 +243,14 @@
             this.tsMainRestoreAll,
             this.tsMainShowAddresses});
             this.mainGridContextMenu.Name = "mainGridContextMenu";
-            this.mainGridContextMenu.Size = new System.Drawing.Size(160, 48);
+            this.mainGridContextMenu.Size = new System.Drawing.Size(160, 70);
             // 
             // tsMainRestoreAll
             // 
             this.tsMainRestoreAll.Name = "tsMainRestoreAll";
             this.tsMainRestoreAll.Size = new System.Drawing.Size(159, 22);
             this.tsMainRestoreAll.Text = "Restore all";
+            this.tsMainRestoreAll.Click += new System.EventHandler(this.tsMainRestoreAll_Click);
             // 
             // tsMainShowAddresses
             // 
@@ -265,7 +266,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(793, 452);
+            this.tabPage2.Size = new System.Drawing.Size(852, 452);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Outfit";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -294,7 +295,7 @@
             this.dgvOutfit.Name = "dgvOutfit";
             this.dgvOutfit.RowHeadersVisible = false;
             this.dgvOutfit.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvOutfit.Size = new System.Drawing.Size(922, 579);
+            this.dgvOutfit.Size = new System.Drawing.Size(840, 440);
             this.dgvOutfit.TabIndex = 6;
             this.dgvOutfit.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvOutfit.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellLeave);
@@ -366,7 +367,7 @@
             this.tabPage3.Controls.Add(this.dgvAppearance);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(793, 452);
+            this.tabPage3.Size = new System.Drawing.Size(852, 452);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Appearance";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -396,7 +397,7 @@
             this.dgvAppearance.Name = "dgvAppearance";
             this.dgvAppearance.RowHeadersVisible = false;
             this.dgvAppearance.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgvAppearance.Size = new System.Drawing.Size(922, 579);
+            this.dgvAppearance.Size = new System.Drawing.Size(843, 443);
             this.dgvAppearance.TabIndex = 7;
             this.dgvAppearance.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvData_CellClick);
             this.dgvAppearance.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAppearance_CellContentClick);
@@ -481,10 +482,29 @@
             this.tabPage4.Controls.Add(this.groupBox1);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(793, 452);
+            this.tabPage4.Size = new System.Drawing.Size(852, 452);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Additional settings";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.pictureBox1);
+            this.groupBox5.Location = new System.Drawing.Point(394, 253);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(378, 184);
+            this.groupBox5.TabIndex = 14;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Random art to remind us SHE was used to advertise this game!";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(8, 19);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(364, 159);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // groupBox4
             // 
@@ -836,7 +856,7 @@
             this.btnSave.Enabled = false;
             this.btnSave.Location = new System.Drawing.Point(16, 496);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(797, 33);
+            this.btnSave.Size = new System.Drawing.Size(856, 33);
             this.btnSave.TabIndex = 3;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -847,33 +867,14 @@
             this.dlgColor.AnyColor = true;
             this.dlgColor.FullOpen = true;
             // 
-            // groupBox5
-            // 
-            this.groupBox5.Controls.Add(this.pictureBox1);
-            this.groupBox5.Location = new System.Drawing.Point(394, 253);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(378, 184);
-            this.groupBox5.TabIndex = 14;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Random art to remind us SHE was used to advertise this game!";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(8, 19);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(364, 159);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(825, 541);
+            this.ClientSize = new System.Drawing.Size(884, 541);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabControl1);
-            this.MinimumSize = new System.Drawing.Size(840, 580);
+            this.MinimumSize = new System.Drawing.Size(900, 580);
             this.Name = "MainForm";
             this.Text = "Gal*Gun VR Editor";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -887,6 +888,8 @@
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppearance)).EndInit();
             this.tabPage4.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -895,8 +898,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.cellContextMenu.ResumeLayout(false);
-            this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -21,6 +21,14 @@ namespace GGVREditor
 
         public void AddRelation(TextBox textBox, GGVRBaseDataType dataSet)
         {
+            TextFieldDataSet tfdsOld = this.DataTypeOfTextEdit(textBox);
+
+            if (tfdsOld != null)
+            {
+                this.EditFields.Remove(tfdsOld);
+                textBox.Leave -= this.CheckIfEdited;
+            }
+
             TextFieldDataSet tfds = new TextFieldDataSet(textBox, dataSet);
             this.EditFields.Add(tfds);
 
@@ -80,6 +88,14 @@ namespace GGVREditor
             foreach(TextFieldDataSet ds in this.EditFields)
             {
                 ds.DataSet.WriteToFile(bw);
+            }
+        }
+
+        public void RestoreAll()
+        {
+            foreach (TextFieldDataSet ds in this.EditFields)
+            {
+                ds.DataSet.RestoreOriginal();
             }
         }
     }
