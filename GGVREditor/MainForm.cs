@@ -1353,7 +1353,7 @@ namespace GGVREditor
             this._playerParameters.RestoreAll();
             this._girlHeightFields.RestoreAll();
 
-            this.ReloadData();
+            this.FillGrid();
             this.EnableEdited(true);
         }
     }
