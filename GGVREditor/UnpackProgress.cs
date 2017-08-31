@@ -37,12 +37,39 @@ namespace GGVREditor
         private void UnpackProgress_Shown(object sender, EventArgs e)
         {
             this.lblUnpackFile.Text = "Reading file header";
+            
+            if(File.Exists(this.PakFile + ".bak") || File.Exists(this.SigFile + ".bak"))
+            {
+                if(MessageBox.Show("PAK file has been unpacked before, a backup file exists. Is it okay to overwrite this backup file?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                {
+                    this._completed = true;
+                    Close();
+                }                
+            }
+            
+            StartUnpackThreaded();            
+        }
+
+        private void StartUnpackThreaded()
+        {
             Thread t = new Thread(RunUnpack);
             t.Start();
         }
 
         private void RunUnpack()
         {
+            while (File.Exists(this.PakFile + ".bak"))
+            {
+                File.Delete(this.PakFile + ".bak");
+                Thread.Sleep(10);
+            }
+
+            while (File.Exists(this.SigFile + ".bak"))
+            {
+                File.Delete(this.SigFile + ".bak");
+                Thread.Sleep(10);
+            }
+
             File.Move(this.PakFile, this.PakFile + ".bak");
             File.Move(this.SigFile, this.SigFile + ".bak");
 
