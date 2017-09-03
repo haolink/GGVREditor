@@ -25,6 +25,7 @@ namespace GGVREditor
 
         private const string FILE_EXECUTABLE = @"GalGunVR\Binaries\Win64\GalGunVR-Win64-Shipping.exe";
 
+        private const string FILE_GAL_DATA_UASSET = @"GalGunVR\Content\VRGG\DataTable\GalData\GalData.uasset";
         private const string FILE_GAL_VISUAL_DATA_UASSET = @"GalGunVR\Content\VRGG\DataTable\GalData\GalVisualDatas.uasset";
         private const string FILE_GIRLS_HEIGHT_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset";
         private const string FILE_PLAYER_PARAMETERS_UASSET = @"GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset";
@@ -34,7 +35,7 @@ namespace GGVREditor
 
         private static readonly string[] unpackedFilesCheck = new string[]
         {
-            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET
+            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET, FILE_GAL_DATA_UASSET
         };
 
         private static readonly string[] packedFilesCheck = new string[]
@@ -44,7 +45,7 @@ namespace GGVREditor
 
         private static readonly string[] packedFilesRequired = new string[]
         {
-            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET
+            FILE_GAL_VISUAL_DATA_UASSET, FILE_GIRLS_HEIGHT_CURVE_UASSET, FILE_PLAYER_PARAMETERS_UASSET, FILE_GAL_DATA_UASSET
         };
 
         private Dictionary<string, FileInPakLocation> _pakOffsets;
@@ -362,37 +363,68 @@ namespace GGVREditor
             this._settings = settings;            
         }
 
+        private void LoadAssetFile(string file, out int fileLength, ref FileStream fs, ref BinaryReader br, out long baseOffset)
+        {
+            if (this._settings.UsePAKFile)
+            {
+                if (fs == null)
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                    br = new BinaryReader(fs);
+                }
+
+                FileInPakLocation fipl = this._pakOffsets[file];
+                baseOffset = fipl.FileOffset;
+                fileLength = fipl.FileSize;
+
+                fs.Seek(baseOffset, SeekOrigin.Begin);
+            }
+            else
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                br = new BinaryReader(fs);
+                fileLength = (int)fs.Length;
+                fs.Seek(0, SeekOrigin.Begin);                
+                baseOffset = 0;
+            }
+        }
+
+        private void LoadAssetFileForWrite(string file, ref FileStream fs, ref BinaryWriter bw)
+        {
+            if (this._settings.UsePAKFile)
+            {
+                if (fs == null)
+                {
+                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    bw = new BinaryWriter(fs);
+                }
+
+                FileInPakLocation fipl = this._pakOffsets[file];
+                long baseOffset = fipl.FileOffset;
+
+                fs.Seek(baseOffset, SeekOrigin.Begin);
+            }
+            else
+            {
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                bw = new BinaryWriter(fs);
+                
+                fs.Seek(0, SeekOrigin.Begin);                
+            }
+        }
+
         private void LoadValues()
         {
             //TODO: Handle PAK file
             FileStream fs = null;
             BinaryReader br = null;
             byte[] buffer = null;
-            FileInPakLocation fipl = null;
             long baseOffset = 0;
+            int fileLength = 0;
 
-            if(this._settings.UsePAKFile)
-            {
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                br = new BinaryReader(fs);
-            }
-
-            if (!this._settings.UsePAKFile)
-            {
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                br = new BinaryReader(fs);
-                buffer = new byte[(int)fs.Length];
-                fs.Seek(0, SeekOrigin.Begin);
-                fs.Read(buffer, 0, (int)fs.Length);
-            }
-            else
-            {
-                fipl = this._pakOffsets[FILE_GAL_VISUAL_DATA_UASSET];
-                baseOffset = fipl.FileOffset;
-                buffer = new byte[fipl.FileSize];
-                fs.Seek(baseOffset, SeekOrigin.Begin);
-                fs.Read(buffer, 0, fipl.FileSize);
-            }
+            LoadAssetFile(FILE_GAL_VISUAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset);
+            buffer = new byte[fileLength];
+            fs.Read(buffer, 0, fileLength);
             
             byte initial = 0x3B;
             List<long> locations;
@@ -462,6 +494,31 @@ namespace GGVREditor
                 }
             }
 
+            LoadAssetFile(FILE_GAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset);
+            buffer = new byte[fileLength];
+            fs.Read(buffer, 0, fileLength);
+            initial = 0x04;
+
+            for (int i = 0; i < characterNames.Length; i++)
+            {
+                byte searchByte = (byte)(initial + i);
+                needle = new byte[]
+                {
+                    searchByte, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x82, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x83, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x88, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+                };
+
+                locations = buffer.IndexesOf(needle);
+
+                if (locations.Count >= 0)
+                {
+                    offsets[i] = (int)locations[0];
+                }
+                else
+                {
+                    offsets[i] = -1;
+                }
+            }
+
             this._girls = girls.ToArray();
 
             if(this._girls.Length > 0)
@@ -470,25 +527,7 @@ namespace GGVREditor
                 cbCharSwap2.SelectedIndex = 0;
             }
 
-            if (!this._settings.UsePAKFile)
-            {
-                br = null;
-                fs.Close();
-
-                fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                br = new BinaryReader(fs);
-                buffer = new byte[(int)fs.Length];
-                fs.Seek(0, SeekOrigin.Begin);
-                fs.Read(buffer, 0, (int)fs.Length);
-            }
-            else
-            {
-                fipl = this._pakOffsets[FILE_GIRLS_HEIGHT_CURVE_UASSET];
-                baseOffset = fipl.FileOffset;
-                buffer = new byte[fipl.FileSize];
-                fs.Seek(baseOffset, SeekOrigin.Begin);
-                fs.Read(buffer, 0, fipl.FileSize);
-            }
+            LoadAssetFile(FILE_GIRLS_HEIGHT_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset);            
 
             needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
@@ -502,26 +541,7 @@ namespace GGVREditor
                 this._girlHeightFields.AddRelation(txtMaxCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlHeights", "MaxCM"));
                 this._girlHeightFields.AddRelation(txtMaxScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlHeights", "MaxScale"));
             }
-
-            if (!this._settings.UsePAKFile)
-            {
-                br = null;
-                fs.Close();
-
-                fs = new FileStream(this._settings.GameDirectory + @"\GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                br = new BinaryReader(fs);
-                buffer = new byte[(int)fs.Length];
-                fs.Seek(0, SeekOrigin.Begin);
-                fs.Read(buffer, 0, (int)fs.Length);
-            }
-            else
-            {
-                fipl = this._pakOffsets[FILE_PLAYER_PARAMETERS_UASSET];
-                baseOffset = fipl.FileOffset;
-                buffer = new byte[fipl.FileSize];
-                fs.Seek(baseOffset, SeekOrigin.Begin);
-                fs.Read(buffer, 0, fipl.FileSize);
-            }
+            LoadAssetFile(FILE_PLAYER_PARAMETERS_UASSET, out fileLength, ref fs, ref br, out baseOffset);
 
             needle = new byte[] { 0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
@@ -707,77 +727,44 @@ namespace GGVREditor
             FileStream fs = null;
             BinaryWriter bw = null;
 
-            if(this._settings.UsePAKFile)
+            try
             {
-                try
-                {
-                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PAK_FILE, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                    bw = new BinaryWriter(fs);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unable to open the PAK file for writing. Make sure that Gal*Gun VR isn't currently running!");
-                    return false;
-                }
+                LoadAssetFileForWrite(FILE_GAL_VISUAL_DATA_UASSET, ref fs, ref bw);
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GAL_VISUAL_DATA_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                    bw = new BinaryWriter(fs);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unable to open the Visual Data asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return false;
-                }
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
             }
-            
+
 
             foreach (GGVRGirl girl in this._girls)
             {
                 girl.WriteAll(bw);
             }
 
-            if (!this._settings.UsePAKFile)
+            try
             {
-                bw = null;
-                fs.Close();
-                fs = null;
-
-                try
-                {
-                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_GIRLS_HEIGHT_CURVE_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                    bw = new BinaryWriter(fs);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unable to open the Girl Height asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return false;
-                }
-        }
+                LoadAssetFileForWrite(FILE_GIRLS_HEIGHT_CURVE_UASSET, ref fs, ref bw);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
 
             this._girlHeightFields.WriteAll(bw);
-            
-            if (!this._settings.UsePAKFile)
-            {
-                bw = null;
-                fs.Close();
-                fs = null;
 
-                try
-                {
-                    fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + FILE_PLAYER_PARAMETERS_UASSET, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
-                    bw = new BinaryWriter(fs);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Unable to open the Player parameter asset file for writing. Make sure that Gal*Gun VR isn't currently in a loading sequence (in the main menu the file can be safely edited)!");
-                    return false;
-                }
+            try
+            {
+                LoadAssetFileForWrite(FILE_PLAYER_PARAMETERS_UASSET, ref fs, ref bw);
             }
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
+
 
             this._playerParameters.WriteAll(bw);
 
