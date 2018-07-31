@@ -27,8 +27,13 @@ namespace GGVREditor
 
         private const string FILE_GAL_DATA_UASSET = @"GalGunVR\Content\VRGG\DataTable\GalData\GalData.uasset";
         private const string FILE_GAL_VISUAL_DATA_UASSET = @"GalGunVR\Content\VRGG\DataTable\GalData\GalVisualDatas.uasset";
-        private const string FILE_GIRLS_HEIGHT_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset";
         private const string FILE_PLAYER_PARAMETERS_UASSET = @"GalGunVR\Content\VRGG\DataTable\Shooting\PlayerParameters.uasset";
+
+        private const string FILE_GIRLS_HEIGHT_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\GirlsHeightCurve.uasset";
+        private const string FILE_GIRLS_BUST_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\BustSizeCurve.uasset";
+        private const string FILE_GIRLS_WAIST_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\Lumber1SizeCurve.uasset";
+        private const string FILE_GIRLS_HIP_CURVE_UASSET = @"GalGunVR\Content\VRGG\AI\GAL\ChangeBodySize\HipSizeCurve.uasset";
+
 
         private const string FILE_PAK_FILE = @"GalGunVR\Content\Paks\GalGunVR-WindowsNoEditor.pak";
         private const string FILE_SIG_FILE = @"GalGunVR\Content\Paks\GalGunVR-WindowsNoEditor.sig";
@@ -66,7 +71,7 @@ namespace GGVREditor
         public static readonly Dictionary<byte, string> outfitValues = new Dictionary<byte, string>()
         {
             { 0x81, "Risu (0x81)" }, { 0x82, "Chiru (0x82)" }, { 0x83, "Yuko (0x83)" }, { 0x84, "Shinobu (0x84)" }, { 0x85, "Maya (0x85)" }, { 0x86, "1st grade (0x86)" },
-            { 0x87, "2nd grade (0x87)" }, { 0x88, "3rd grade (0x88)" }, { 0x89, "Teacher (0x89)" }, { 0x8A, "Kurona (0x8A)" }
+            { 0x87, "2nd grade (0x87)" }, { 0x88, "3rd grade (0x88)" }, { 0x89, "Teacher (0x89)" }, { 0x8A, "Kurona (0x8A)" }, { 0x8B, "Unknown (0x8B)" }
         };
         public static readonly Dictionary<byte, string> accessoryValues = new Dictionary<byte, string>()
         {
@@ -74,7 +79,7 @@ namespace GGVREditor
         };
         public static readonly Dictionary<byte, string> shoes = new Dictionary<byte, string>()
         {
-            { 0x93, "Sneakers (0x93)" }, { 0x94, "Formal (0x94)" }
+            { 0x93, "Sneakers (0x93)" }, { 0x94, "Loafers (0x94)" }
         };
         public static readonly Dictionary<byte, string> socks = new Dictionary<byte, string>()
         {
@@ -107,7 +112,45 @@ namespace GGVREditor
             { 0xE8, "Skin 1 (0xE8)" }, { 0xE9, "Skin 2 (0xE9)" },  { 0xEA, "Skin 3 (0xEA)" },  { 0xEB, "Black broken (0xEB)" }
         };
 
+        public static readonly Dictionary<byte, string> grades = new Dictionary<byte, string>()
+        {
+            { 0x60, "Not at school (0x60)" }, { 0x61, "1st year (0x61)" }, { 0x62, "2nd year (0x62)" },  { 0x63, "3rd year (0x63)" },  { 0x64, "Teacher 1st year (0x64)" },  { 0x65, "Teacher 2nd year (0x65)" },  { 0x66, "Teacher 3rd year (0x66)" }
+        };
+
+        public static readonly Dictionary<byte, string> classes = new Dictionary<byte, string>()
+        {
+            { 0x59, "- (0x59)" }, { 0x5A, "A (0x5A)" }, { 0x5B, "B (0x5B)" }, { 0x5C, "C (0x5C)" }, { 0x5D, "D (0x5D)" }, { 0x5E, "E (0x5E)" }, { 0x5F, "F (0x5F)" }
+        };
+
+        public static readonly Dictionary<byte, string> posts = new Dictionary<byte, string>()
+        {
+            { 0x68, "None (0x68)" }, { 0x69, "Student (0x69)" }, { 0x6A, "Moral guard (0x6A)" }, { 0x6B, "Student officer (0x6B)" }, { 0x6C, "Teacher (0x6C)" }
+        };
+
+        public static readonly Dictionary<byte, string> bloodTypes = new Dictionary<byte, string>()
+        {
+            { 0x34, "A (0x34)" }, { 0x35, "B (0x35)" }, { 0x36, "AB (0x36)" }, { 0x37, "0 (0x37)" }, { 0x38, "- (0x38)" }
+        };
+
+        public static readonly Dictionary<byte, string> weakPoints = new Dictionary<byte, string>()
+        {
+            { 0x54, "Head (0x54)" }, { 0x55, "Breasts (0x55)" }, { 0x56, "Hip (0x56)" }, { 0x57, "Legs (0x57)" }, { 0x58, "None (0x58)" }
+        };
+
+        public static readonly Dictionary<byte, string> personalities = new Dictionary<byte, string>()
+        {
+            { 0x3A, "Cute (0x3A)" }, { 0x3B, "Vital (0x3B)" }, { 0x3C, "Hentai (0x3C)" },  { 0x3D, "Perfect (0x3D)" },  { 0x3E, "Rural Morals Officer (0x3E)" },  { 0x3F, "Shy Morals Officer (0x3F)" },  { 0x40, "Serious Morals officer (0x40)" },
+            { 0x41, "Serious Teacher (0x41)" }, { 0x42, "Cool Teacher (0x42)" }, { 0x43, "Hentai Teacher (0x43)" },  { 0x44, "Shinobu (0x44)" },  { 0x45, "Boyish (0x45)" },  { 0x46, "Maya (0x46)" },  { 0x47, "Kurona (0x47)" },
+            { 0x48, "Yuko (0x48)" }, { 0x49, "Shy Teacher (0x49)" }, { 0x4A, "Risu (0x4A)" },  { 0x4B, "Ladylike (0x4B)" },  { 0x4C, "Chiru (0x4C)" },  { 0x4D, "Cool (0x4D)" },  { 0x4E, "Shy (0x4E)" },
+            { 0x4F, "Aggressive (0x4F)" }, { 0x50, "Mysterious (0x50)" }, { 0x51, "Tsundere (0x51)" },  { 0x52, "Sadistic (0x52)" }
+        };
+
+
+
         private BaseEditFields _girlHeightFields;
+        private BaseEditFields _girlBustFields;
+        private BaseEditFields _girlWaistFields;
+        private BaseEditFields _girlHipFields;
         private BaseEditFields _playerParameters;
 
         private GGVRGirl[] _girls;
@@ -122,6 +165,15 @@ namespace GGVREditor
             this._girlHeightFields = new BaseEditFields();
             this._girlHeightFields.MarkEdited = this.MarkAsEdited;
 
+            this._girlBustFields = new BaseEditFields();
+            this._girlBustFields.MarkEdited = this.MarkAsEdited;
+
+            this._girlWaistFields = new BaseEditFields();
+            this._girlWaistFields.MarkEdited = this.MarkAsEdited;
+
+            this._girlHipFields = new BaseEditFields();
+            this._girlHipFields.MarkEdited = this.MarkAsEdited;
+
             this._playerParameters = new BaseEditFields();
             this._playerParameters.MarkEdited = this.MarkAsEdited;
 
@@ -132,6 +184,15 @@ namespace GGVREditor
             PopulateComboboxColumn<byte, string>(clmAHair, hairs);
             PopulateComboboxColumn<byte, string>(clmAFace, faces);
             PopulateComboboxColumn<byte, string>(clmASkin, skins);
+
+            PopulateComboboxColumn<byte, string>(clmYear, grades);
+            PopulateComboboxColumn<byte, string>(clmClass, classes);
+            PopulateComboboxColumn<byte, string>(clmPost, posts);
+            PopulateComboboxColumn<byte, string>(clmBloodType, bloodTypes);
+
+            PopulateComboboxColumn<byte, string>(clmWeakPoint, weakPoints);
+            PopulateComboboxColumn<byte, string>(clmNPersonality, personalities);
+            PopulateComboboxColumn<byte, string>(clmPPersonality, personalities);
         }
 
         private bool CheckFiles(string directory, string[] checkedFiles)
@@ -363,7 +424,7 @@ namespace GGVREditor
             this._settings = settings;            
         }
 
-        private void LoadAssetFile(string file, out int fileLength, ref FileStream fs, ref BinaryReader br, out long baseOffset)
+        private void LoadAssetFile(string file, out int fileLength, ref FileStream fs, ref BinaryReader br, out long baseOffset, ref byte[] buffer)
         {
             if (this._settings.UsePAKFile)
             {
@@ -381,12 +442,22 @@ namespace GGVREditor
             }
             else
             {
+                if (fs != null)
+                {
+                    br.Close();
+                    br = null;
+                    fs = null;
+                }
+
                 fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 br = new BinaryReader(fs);
                 fileLength = (int)fs.Length;
                 fs.Seek(0, SeekOrigin.Begin);                
                 baseOffset = 0;
             }
+
+            buffer = new byte[fileLength];
+            fs.Read(buffer, 0, fileLength);
         }
 
         private void LoadAssetFileForWrite(string file, ref FileStream fs, ref BinaryWriter bw)
@@ -406,7 +477,14 @@ namespace GGVREditor
             }
             else
             {
-                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + file, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                if (fs != null)
+                {
+                    bw.Close();
+                    bw = null;
+                    fs = null;
+                }
+
+                fs = new FileStream(this._settings.GameDirectory + Path.DirectorySeparatorChar + file, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
                 bw = new BinaryWriter(fs);
                 
                 fs.Seek(0, SeekOrigin.Begin);                
@@ -422,9 +500,8 @@ namespace GGVREditor
             long baseOffset = 0;
             int fileLength = 0;
 
-            LoadAssetFile(FILE_GAL_VISUAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset);
-            buffer = new byte[fileLength];
-            fs.Read(buffer, 0, fileLength);
+            LoadAssetFile(FILE_GAL_VISUAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
+            
             
             byte initial = 0x3B;
             List<long> locations;
@@ -471,6 +548,7 @@ namespace GGVREditor
                     g.BaseID = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i], gPrep, "BaseID");
 
                     g.Height = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x112, gPrep, "Height");
+
                     g.HeadSizeRatio = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x12F, gPrep, "HeadSizeRatio");
                     g.Bust = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x14C, gPrep, "Bust");
                     g.Waist = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x169, gPrep, "Waist");
@@ -494,9 +572,8 @@ namespace GGVREditor
                 }
             }
 
-            LoadAssetFile(FILE_GAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset);
-            buffer = new byte[fileLength];
-            fs.Read(buffer, 0, fileLength);
+            LoadAssetFile(FILE_GAL_DATA_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
+            
             initial = 0x04;
 
             for (int i = 0; i < characterNames.Length; i++)
@@ -519,6 +596,47 @@ namespace GGVREditor
                 }
             }
 
+            for (int i = 0; i < offsets.Length; i++)
+            {
+                if (i >= girls.Count)
+                {
+                    break;
+                }
+
+                if (offsets[i] > 0)
+                {
+                    GGVRGirl g = girls[i];
+                    string gPrep = "G" + (i + 1).ToString();
+
+                    g.Year = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x05A, gPrep, "Grade");
+                    g.Class = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x83, gPrep, "Class");
+                    g.Post = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0xAC, gPrep, "Post");
+                    g.BloodType = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x20C, gPrep, "BloodType");
+
+
+                    g.BirthMonth = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x235, gPrep, "BirthMonth");
+                    g.BirthDay = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x257, gPrep, "BirthDay");
+                    g.BirthMonth.AssignValueRange(0, 12);
+                    g.BirthDay.AssignValueRange(0, 31);
+
+                    g.WeakPoint = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x446, gPrep, "WeakPoint");
+
+                    g.PersonalityNormal = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x13F, gPrep, "NPersonality");
+                    g.SpeedNormal = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x160, gPrep, "NSPeed");
+                    g.HPNormal = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x2DB, gPrep, "NHP");
+                    g.AttackNormal1Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x2F8, gPrep, "NAttack1");
+                    g.AttackNormal2Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x315, gPrep, "NAttack2");
+                    g.AttackNormal3Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x332, gPrep, "NAttack3");
+
+                    g.PersonalityPossessed = this.LoadValueAndOriginal<byte>(br, baseOffset + offsets[i] + 0x1BE, gPrep, "PPersonality");
+                    g.SpeedPossessed = this.LoadValueAndOriginal<float>(br, baseOffset + offsets[i] + 0x1DF, gPrep, "PSPeed");
+                    g.HPPossessed = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x3A5, gPrep, "PHP");
+                    g.AttackPossessed1Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x3C2, gPrep, "PAttack1");
+                    g.AttackPossessed2Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x3DF, gPrep, "PAttack2");
+                    g.AttackPossessed3Strength = this.LoadValueAndOriginal<int>(br, baseOffset + offsets[i] + 0x3FC, gPrep, "PAttack3");
+                }
+            }
+
             this._girls = girls.ToArray();
 
             if(this._girls.Length > 0)
@@ -527,7 +645,7 @@ namespace GGVREditor
                 cbCharSwap2.SelectedIndex = 0;
             }
 
-            LoadAssetFile(FILE_GIRLS_HEIGHT_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset);            
+            LoadAssetFile(FILE_GIRLS_HEIGHT_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);            
 
             needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
@@ -540,8 +658,101 @@ namespace GGVREditor
                 this._girlHeightFields.AddRelation(txtNormScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x4B, "GirlHeights", "NormScale"));
                 this._girlHeightFields.AddRelation(txtMaxCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlHeights", "MaxCM"));
                 this._girlHeightFields.AddRelation(txtMaxScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlHeights", "MaxScale"));
+
+                this._girlHeightFields.AddRelation(txtMinHSRV1, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x10C, "GirlHeights", "MinHSRV1"));
+                this._girlHeightFields.AddRelation(txtMinHSRV2, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x110, "GirlHeights", "MinHSRV2"));
+                this._girlHeightFields.AddRelation(txtNormHSRV1, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x127, "GirlHeights", "NormHSRV1"));
+                this._girlHeightFields.AddRelation(txtNormHSRV2, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x12B, "GirlHeights", "NormHSRV2"));
+                this._girlHeightFields.AddRelation(txtMaxHSRV1, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x142, "GirlHeights", "MaxHSRV1"));
+                this._girlHeightFields.AddRelation(txtMaxHSRV2, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x146, "GirlHeights", "MaxHSRV1"));
             }
-            LoadAssetFile(FILE_PLAYER_PARAMETERS_UASSET, out fileLength, ref fs, ref br, out baseOffset);
+
+            LoadAssetFile(FILE_GIRLS_BUST_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
+            needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            locations = buffer.IndexesOf(needle);
+
+            if (locations.Count == 3)
+            {
+                this._girlBustFields.AddRelation(txtMinBustCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x2C, "GirlBusts", "MinCM"));
+                this._girlBustFields.AddRelation(txtMinBustScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x30, "GirlBusts", "MinScale"));
+                this._girlBustFields.AddRelation(txtNormBustCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x47, "GirlBusts", "NormCM"));
+                this._girlBustFields.AddRelation(txtNormBustScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x4B, "GirlBusts", "NormScale"));
+                this._girlBustFields.AddRelation(txtMaxBustCM, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlBusts", "MaxCM"));
+                this._girlBustFields.AddRelation(txtMaxBustScale, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlBusts", "MaxScale"));
+
+                this._girlBustFields.AddRelation(txtMinBustCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x2C, "GirlBusts", "MinCMY"));
+                this._girlBustFields.AddRelation(txtMinBustScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x30, "GirlBusts", "MinScaleY"));
+                this._girlBustFields.AddRelation(txtNormBustCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x47, "GirlBusts", "NormCMY"));
+                this._girlBustFields.AddRelation(txtNormBustScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x4B, "GirlBusts", "NormScaleY"));
+                this._girlBustFields.AddRelation(txtMaxBustCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x62, "GirlBusts", "MaxCMY"));
+                this._girlBustFields.AddRelation(txtMaxBustScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x66, "GirlBusts", "MaxScaleY"));
+
+                this._girlBustFields.AddRelation(txtMinBustCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x2C, "GirlBusts", "MinCMZ"));
+                this._girlBustFields.AddRelation(txtMinBustScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x30, "GirlBusts", "MinScaleZ"));
+                this._girlBustFields.AddRelation(txtNormBustCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x47, "GirlBusts", "NormCMZ"));
+                this._girlBustFields.AddRelation(txtNormBustScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x4B, "GirlBusts", "NormScaleZ"));
+                this._girlBustFields.AddRelation(txtMaxBustCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x62, "GirlBusts", "MaxCMZ"));
+                this._girlBustFields.AddRelation(txtMaxBustScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x66, "GirlBusts", "MaxScaleZ"));
+            }
+
+            LoadAssetFile(FILE_GIRLS_WAIST_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
+            needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            locations = buffer.IndexesOf(needle);
+
+            if (locations.Count == 2)
+            {
+                this._girlWaistFields.AddRelation(txtMinWaistCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x2C, "GirlWaists", "MinCM"));
+                this._girlWaistFields.AddRelation(txtMinWaistScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x30, "GirlWaists", "MinScale"));
+                this._girlWaistFields.AddRelation(txtNormWaistCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x47, "GirlWaists", "NormCM"));
+                this._girlWaistFields.AddRelation(txtNormWaistScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x4B, "GirlWaists", "NormScale"));
+                this._girlWaistFields.AddRelation(txtMaxWaistCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlWaists", "MaxCM"));
+                this._girlWaistFields.AddRelation(txtMaxWaistScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlWaists", "MaxScale"));
+
+                this._girlWaistFields.AddRelation(txtMinWaistCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x10C, "GirlWaists", "MinCMY"));
+                this._girlWaistFields.AddRelation(txtMinWaistScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x110, "GirlWaists", "MinScaleY"));
+                this._girlWaistFields.AddRelation(txtMaxWaistCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x127, "GirlWaists", "MaxCMY"));
+                this._girlWaistFields.AddRelation(txtMaxWaistScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x12B, "GirlWaists", "MaxScaleY"));
+
+                this._girlWaistFields.AddRelation(txtMinWaistCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x2C, "GirlWaists", "MinCMZ"));
+                this._girlWaistFields.AddRelation(txtMinWaistScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x30, "GirlWaists", "MinScaleZ"));
+                this._girlWaistFields.AddRelation(txtNormWaistCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x47, "GirlWaists", "NormCMZ"));
+                this._girlWaistFields.AddRelation(txtNormWaistScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x4B, "GirlWaists", "NormScaleZ"));
+                this._girlWaistFields.AddRelation(txtMaxWaistCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x62, "GirlWaists", "MaxCMZ"));
+                this._girlWaistFields.AddRelation(txtMaxWaistScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x66, "GirlWaists", "MaxScaleZ"));
+            }
+
+            LoadAssetFile(FILE_GIRLS_HIP_CURVE_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
+            needle = new byte[] { 0x0D, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x51, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            locations = buffer.IndexesOf(needle);
+
+            if (locations.Count == 3)
+            {
+                this._girlHipFields.AddRelation(txtMinHipCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x2C, "GirlHips", "MinCM"));
+                this._girlHipFields.AddRelation(txtMinHipScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x30, "GirlHips", "MinScale"));
+                this._girlHipFields.AddRelation(txtNormHipCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x47, "GirlHips", "NormCM"));
+                this._girlHipFields.AddRelation(txtNormHipScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x4B, "GirlHips", "NormScale"));
+                this._girlHipFields.AddRelation(txtMaxHipCMX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x62, "GirlHips", "MaxCM"));
+                this._girlHipFields.AddRelation(txtMaxHipScaleX, this.LoadValueAndOriginal<float>(br, baseOffset + locations[0] + 0x66, "GirlHips", "MaxScale"));
+
+                this._girlHipFields.AddRelation(txtMinHipCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x2C, "GirlHips", "MinCMY"));
+                this._girlHipFields.AddRelation(txtMinHipScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x30, "GirlHips", "MinScaleY"));
+                this._girlHipFields.AddRelation(txtNormHipCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x47, "GirlHips", "NormCMY"));
+                this._girlHipFields.AddRelation(txtNormHipScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x4B, "GirlHips", "NormScaleY"));
+                this._girlHipFields.AddRelation(txtMaxHipCMY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x62, "GirlHips", "MaxCMY"));
+                this._girlHipFields.AddRelation(txtMaxHipScaleY, this.LoadValueAndOriginal<float>(br, baseOffset + locations[1] + 0x66, "GirlHips", "MaxScaleY"));
+
+                this._girlHipFields.AddRelation(txtMinHipCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x2C, "GirlHips", "MinCMZ"));
+                this._girlHipFields.AddRelation(txtMinHipScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x30, "GirlHips", "MinScaleZ"));
+                this._girlHipFields.AddRelation(txtNormHipCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x47, "GirlHips", "NormCMZ"));
+                this._girlHipFields.AddRelation(txtNormHipScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x4B, "GirlHips", "NormScaleZ"));
+                this._girlHipFields.AddRelation(txtMaxHipCMZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x62, "GirlHips", "MaxCMZ"));
+                this._girlHipFields.AddRelation(txtMaxHipScaleZ, this.LoadValueAndOriginal<float>(br, baseOffset + locations[2] + 0x66, "GirlHips", "MaxScaleZ"));
+            }
+
+
+
+
+            LoadAssetFile(FILE_PLAYER_PARAMETERS_UASSET, out fileLength, ref fs, ref br, out baseOffset, ref buffer);
 
             needle = new byte[] { 0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             locations = buffer.IndexesOf(needle);
@@ -576,24 +787,30 @@ namespace GGVREditor
                 GGVRBaseDataType[] values;
 
                 values = new GGVRBaseDataType[] { girl.Height, girl.HeadSizeRatio, girl.Bust, girl.Waist, girl.Hip };
-                FillToDataGrid(dgvDataFixed, girl.ID, name, girl.Height, values);
+                FillToDataGrid(dgvDataFixed, girl.ID, name, girl.BaseID.Address, values);
 
                 values = new GGVRBaseDataType[] { girl.Outfit, girl.Accessory, girl.Socks, girl.Shoes };
-                FillToDataGrid(dgvOutfit, girl.ID, name, girl.Height, values);
+                FillToDataGrid(dgvOutfit, girl.ID, name, girl.BaseID.Address, values);
 
                 values = new GGVRBaseDataType[] { girl.Hair, girl.Face, girl.Skin, girl.EyeColor, girl.EyeBrowColor };
-                FillToDataGrid(dgvAppearance, girl.ID, name, girl.Height, values);
+                FillToDataGrid(dgvAppearance, girl.ID, name, girl.BaseID.Address, values);
+
+                values = new GGVRBaseDataType[] { girl.WeakPoint, girl.PersonalityNormal, girl.SpeedNormal, girl.HPNormal, girl.PersonalityPossessed, girl.SpeedPossessed, girl.HPPossessed };
+                FillToDataGrid(dgvShootingParameters, girl.ID, name, girl.Year.Address - 0x5A, values);
+
+                values = new GGVRBaseDataType[] { girl.Year, girl.Class, girl.Post, girl.BloodType, girl.BirthMonth, girl.BirthDay };
+                FillToDataGrid(dgvCosmetic, girl.ID, name, girl.Year.Address - 0x5A, values);
             }
         }
 
-        private void FillToDataGrid(DataGridView dgv, int girldId, string name, GGVRBaseDataType heightField, GGVRBaseDataType[] values)
+        private void FillToDataGrid(DataGridView dgv, int girldId, string name, long baseAddress, GGVRBaseDataType[] values)
         {
             bool found = false;
 
             List<object> objectValues = new List<object>();
             objectValues.Add(String.Format("{0:00}", girldId));
             objectValues.Add(name);
-            objectValues.Add((heightField.Address - 0x0112).ToString("X"));
+            objectValues.Add(baseAddress.ToString("X").ToUpperInvariant());
             for (int i = 0; i < values.Length; i++)
             {
                 DataGridViewColumn clmn = dgv.Columns[i + 3];
@@ -745,6 +962,22 @@ namespace GGVREditor
 
             try
             {
+                LoadAssetFileForWrite(FILE_GAL_DATA_UASSET, ref fs, ref bw);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
+
+
+            foreach (GGVRGirl girl in this._girls)
+            {
+                girl.WriteAllGalData(bw);
+            }
+
+            try
+            {
                 LoadAssetFileForWrite(FILE_GIRLS_HEIGHT_CURVE_UASSET, ref fs, ref bw);
             }
             catch (Exception ex)
@@ -754,6 +987,43 @@ namespace GGVREditor
             }
 
             this._girlHeightFields.WriteAll(bw);
+
+            try
+            {
+                LoadAssetFileForWrite(FILE_GIRLS_BUST_CURVE_UASSET, ref fs, ref bw);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
+
+            this._girlBustFields.WriteAll(bw);
+
+
+            try
+            {
+                LoadAssetFileForWrite(FILE_GIRLS_WAIST_CURVE_UASSET, ref fs, ref bw);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
+
+            this._girlWaistFields.WriteAll(bw);
+
+            try
+            {
+                LoadAssetFileForWrite(FILE_GIRLS_HIP_CURVE_UASSET, ref fs, ref bw);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to open the output file for writing. Make sure that Gal*Gun VR isn't currently running! Exception code: " + ex.Message);
+                return false;
+            }
+
+            this._girlHipFields.WriteAll(bw);
 
             try
             {
@@ -1101,6 +1371,8 @@ namespace GGVREditor
             clmAddress.Visible = tsMainShowAddresses.Checked;
             clmOAddress.Visible = tsMainShowAddresses.Checked;
             clmAAddress.Visible = tsMainShowAddresses.Checked;
+            clmSPGirlAddress.Visible = tsMainShowAddresses.Checked;
+            clmCDGirlAddress.Visible = tsMainShowAddresses.Checked;
         }
 
         private void dgvAppearance_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -1142,6 +1414,30 @@ namespace GGVREditor
             this._girlHeightFields.SetTextBoxValue(this.txtNormScale, (1.0f).ToString());
             this._girlHeightFields.SetTextBoxValue(this.txtMaxCM, (1560.0f).ToString());
             this._girlHeightFields.SetTextBoxValue(this.txtMaxScale, (10.0f).ToString());
+        }
+
+        private void btnMaximiseBust_Click(object sender, EventArgs e)
+        {
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustCM, (0.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustScale, (0.3f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustCM, (83.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustScale, (1.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustCM, (668.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustScale, (10.0f).ToString());            
+
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustCMY, (0.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustScaleY, (0.3f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustCMY, (83.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustScaleY, (1.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustCMY, (668.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustScaleY, (5.5f).ToString());
+
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustCMZ, (38.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMinBustScaleZ, (0.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustCMZ, (83.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtNormBustScaleZ, (1.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustCMZ, (668.0f).ToString());
+            this._girlBustFields.SetTextBoxValue(this.txtMaxBustScaleZ, (3.25f).ToString());
         }
 
         private void btnGodMode_Click(object sender, EventArgs e)
@@ -1260,6 +1556,26 @@ namespace GGVREditor
             }
         }
 
+        private void btnSwapParameters_Click(object sender, EventArgs e)
+        {
+            if (cbCharSwap1.SelectedIndex == cbCharSwap2.SelectedIndex)
+            {
+                MessageBox.Show("Please choose two different characters.", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            GGVRGirl girl1 = this._girls[cbCharSwap1.SelectedIndex];
+            GGVRGirl girl2 = this._girls[cbCharSwap2.SelectedIndex];
+
+            girl1.SwapWith(girl2);
+
+            this.EnableEdited(true);
+
+            MessageBox.Show("Character parameters were swapped!");
+
+            this.FillGrid();
+        }
+
         private void btnSwap_Click(object sender, EventArgs e)
         {
             if(cbCharSwap1.SelectedIndex == cbCharSwap2.SelectedIndex)
@@ -1317,8 +1633,8 @@ namespace GGVREditor
             girl1.BaseID.WriteToFile(bw);
             girl2.BaseID.WriteToFile(bw);
 
+            bw.Close();
             bw = null;
-            fs.Close();
             fs = null;
 
             MessageBox.Show("Characters were successfully swapped!");
@@ -1339,9 +1655,12 @@ namespace GGVREditor
             }
             this._playerParameters.RestoreAll();
             this._girlHeightFields.RestoreAll();
+            this._girlBustFields.RestoreAll();
+            this._girlWaistFields.RestoreAll();
+            this._girlHipFields.RestoreAll();
 
             this.FillGrid();
             this.EnableEdited(true);
-        }
+        }        
     }
 }

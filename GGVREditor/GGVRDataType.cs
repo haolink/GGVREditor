@@ -41,6 +41,22 @@ namespace GGVREditor
             }
         }
 
+        public bool HasValueRange { get; set; }
+
+        public T MinimumValue { get; set; }
+        public T MaximumValue { get; set; }
+
+        public void AssignValueRange(T minimal, T maximum)
+        {
+            this.HasValueRange = true;
+            this.MinimumValue = minimal;
+            this.MaximumValue = maximum;
+        }
+
+        public void RemoveValueRange()
+        {
+            this.HasValueRange = false;
+        }
 
         public bool Available
         {
@@ -57,6 +73,8 @@ namespace GGVREditor
 
             this._address = br.BaseStream.Position;
             this._enabled = true;
+
+            this.HasValueRange = false;
 
             if (typeof(T) == typeof(float))
             {
@@ -148,7 +166,7 @@ namespace GGVREditor
             if(typeof(T) == typeof(byte))
             {
                 byte b = (byte)(object)this._value;
-                return b.ToString("X").ToUpperInvariant();
+                return b.ToString();
             }
             if (typeof(T) == typeof(ColorComparable))
             {
@@ -159,9 +177,30 @@ namespace GGVREditor
             return _value.ToString();
         }
 
+        private T NormaliseValue(T value)
+        {
+            if(!this.HasValueRange)
+            {
+                return value;
+            }
+
+            if(value.CompareTo(this.MinimumValue) < 0)
+            {
+                return this.MinimumValue;
+            }
+
+            if(value.CompareTo(this.MaximumValue) > 0)
+            {
+                return this.MaximumValue;
+            }
+
+            return value;
+        }
+
         public override bool SetNewValueFromString(string value)
         {
             bool changedValue = false;
+            T newValue;
 
             if (typeof(T) == typeof(float))
             {
@@ -171,7 +210,9 @@ namespace GGVREditor
                 {
                     if (Math.Abs(current / v - 1) >= 0.001)
                     {
-                        this._value = (T)(object)v;
+                        newValue = (T)(object)v;                    
+
+                        this._value = this.NormaliseValue(newValue);
                         changedValue = true;
                     }
                 }
@@ -184,7 +225,9 @@ namespace GGVREditor
                 {
                     if (v != current)
                     {
-                        this._value = (T)(object)v;
+                        newValue = (T)(object)v;
+
+                        this._value = this.NormaliseValue(newValue);
                         changedValue = true;
                     }
                 }
@@ -193,10 +236,12 @@ namespace GGVREditor
             {
                 byte b;
                 byte current = (byte)(object)this._value;
-                if(Byte.TryParse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out b)) {
+                if(Byte.TryParse(value, NumberStyles.Number, CultureInfo.InvariantCulture, out b)) {
                     if(b != current)
                     {
-                        this._value = (T)(object)b;
+                        newValue = (T)(object)b;
+
+                        this._value = this.NormaliseValue(newValue);
                         changedValue = true;
                     }
                 }

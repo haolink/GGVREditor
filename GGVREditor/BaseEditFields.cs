@@ -96,6 +96,7 @@ namespace GGVREditor
             foreach (TextFieldDataSet ds in this.EditFields)
             {
                 ds.DataSet.RestoreOriginal();
+                ds.TextBox.Text = ds.DataSet.ToString();
             }
         }
     }
